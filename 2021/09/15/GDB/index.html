@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="renderer" content="webkit">
+
+  
+  <title>GDB调试 | ryanxw&#39;s blog</title>
+
+  <link rel="shortcut icon" href="/images/favicon.png">
+  <link rel="alternate" href="/atom.xml" title="ryanxw's blog" type="application/atom+xml">
+  <meta name="description" content="GDB调试命令概览   命令名称 命令缩写 命令说明 备注    run r 运行一个程序    break b 添加断点 -b xx.cpp:line   delete del 删除断点    list l 显示源代码    continue c 让暂停的程序继续运行    next n 运行到下一行源代码，不进入函数内部    step s 运行到下一行源代码，进入函数内部    print">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GDB调试">
+<meta property="og:url" content="https://ryanxw24.github.io/2021/09/15/GDB/index.html">
+<meta property="og:site_name" content="ryanxw&#39;s blog">
+<meta property="og:description" content="GDB调试命令概览   命令名称 命令缩写 命令说明 备注    run r 运行一个程序    break b 添加断点 -b xx.cpp:line   delete del 删除断点    list l 显示源代码    continue c 让暂停的程序继续运行    next n 运行到下一行源代码，不进入函数内部    step s 运行到下一行源代码，进入函数内部    print">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ryanxw24.github.io/2021/09/15/GDB/gdb1.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2021/09/15/GDB/gdb2.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2021/09/15/GDB/gdb3.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2021/09/15/GDB/gdb4.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2021/09/15/GDB/gdb5.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2021/09/15/GDB/core8.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2021/09/15/GDB/gdb6.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2021/09/15/GDB/gdb7.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2021/09/15/GDB/gdb8.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2021/09/15/GDB/gdb9.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2021/09/15/GDB/gdb10.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2021/09/15/GDB/gdb12.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2021/09/15/GDB/gdb13.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2021/09/15/GDB/gdb15.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2021/09/15/GDB/gdb14.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2021/09/15/GDB/gdb16.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2021/09/15/GDB/gdb17.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2021/09/15/GDB/gdb18.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2021/09/15/GDB/gdb19.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2021/09/15/GDB/gdb20.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2021/09/15/GDB/gdb21.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2021/09/15/GDB/gdb22.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2021/09/15/GDB/gdb23.png">
+<meta property="article:published_time" content="2021-09-14T17:08:24.000Z">
+<meta property="article:modified_time" content="2021-09-17T04:16:07.939Z">
+<meta property="article:author" content="ryanxw">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ryanxw24.github.io/2021/09/15/GDB/gdb1.png">
+
+  <meta name="keywords" content="">
+  <meta name="format-detection" content="telephone=no,email=no">
+  <meta name="theme-color" content="#9C27B0">
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="ryanxw&#39;s blog">
+  <meta name="msapplication-starturl" content="https://ryanxw24.github.io/2021/09/15/GDB/">
+  <meta name="msapplication-navbutton-color" content="#9C27B0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="ryanxw&#39;s blog">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="apple-touch-icon" href="/images/favicon.png">
+
+  
+    <link rel="canonical" href="https://ryanxw24.github.io/2021/09/15/GDB/">
+  
+
+  
+  
+
+  
+  
+  
+
+  
+<link rel="stylesheet" href="/css/mdui.css">
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/custom.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<!-- <body class="mdui-appbar-with-toolbar mdui-theme-primary-indigo mdui-theme-accent-black"> -->
+<body class="mdui-appbar-with-toolbar mdui-theme-primary-indigo mdui-theme-accent-black">
+  <script>var a=localStorage.getItem("mdui-theme-layout-dark");if(a){document.getElementsByTagName("body")[0].className+=" mdui-theme-layout-dark"};</script>
+  <script>if(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches){document.getElementsByTagName("body")[0].className+=" mdui-theme-layout-dark"};</script>
+  <script>var a=localStorage.getItem("mdui-drawer-close");if(!a){document.getElementsByTagName("body")[0].className+=" mdui-drawer-body-left"};</script>
+  <header id="header" class="mdui-appbar mdui-appbar-fixed mdui-appbar-scroll-hide mdui-appbar-inset">
+  <div class="mdui-toolbar mdui-color-theme">
+    <a href="javascript:;" class="mdui-btn mdui-btn-icon" mdui-drawer="{target: '#sidebar', swipe: true}"><i class="mdui-icon material-icons">menu</i></a>
+    <a href="/" class="mdui-typo-headline">ryanxw&#39;s blog</a>
+    <div class="mdui-toolbar-spacer"></div>
+    <a href="javascript:;" class="mdui-btn mdui-btn-icon" mdui-dialog="{target: '#search'}" mdui-tooltip="{content: 'Search'}"><i class="mdui-icon material-icons">search</i></a>
+    <a href="/atom.xml" class="mdui-btn mdui-btn-icon" mdui-tooltip="{content: 'RSS'}"><i class="mdui-icon material-icons">rss_feed</i></a>
+  </div>
+</header>
+<div class="mdui-dialog" id="search">
+  
+    <div class="search-form">
+      <input type="search" class="search-form-input" placeholder="请输入关键字">
+    </div>
+    <div class="search-result" data-resource="/search.xml"></div>
+  
+</div>
+  <aside id="sidebar" class="mdui-drawer mdui-drawer-full-height">
+  <script>var a=localStorage.getItem("mdui-drawer-close");if(a){document.getElementById("sidebar").className+=" mdui-drawer-close"};</script>
+  <div class="mdui-grid-tile">
+    <img src="/images/banner.png" style="height: 160px;">
+    <img src="/images/nk.png" class="avatar-animation" style="position: absolute; top: 10%; left: 24px; width: 64px; height: 64px; border: 2px solid #fff; border-radius: 50%;">
+    <div class="mdui-grid-tile-actions">
+      <div class="mdui-grid-tile-text">
+        <div class="mdui-grid-tile-title">ryanxw</div>
+        <div class="mdui-grid-tile-subtitle"><i class="mdui-icon material-icons">art_track</i>流水不争先，争滔滔不绝</div>
+      </div>
+      
+    </div>
+  </div>
+
+  <div class="mdui-list" mdui-collapse="{accordion: true}">
+    <a href="/" class="mdui-list-item mdui-ripple">
+      <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">home</i>
+      <div class="mdui-list-item-content">Home</div>
+    </a>
+    <div class="mdui-collapse-item">
+      <script>var a=localStorage.getItem("mdui-collapse-item-0");if(a){document.getElementsByClassName("mdui-collapse-item")[0].className+=" mdui-collapse-item-open"};</script>
+      <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+        <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-deep-orange">archive</i>
+        <div class="mdui-list-item-content">Archive</div>
+        <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+      </div>
+      <div class="mdui-collapse-item-body mdui-list mdui-list-dense">
+        
+        <a class="mdui-ripple sidebar_archives-link" href="/archives/2021/09/">September 2021<span class="mdui-ripple sidebar_archives-count">4</span></a>
+        
+      </div>
+    </div>
+    <div class="mdui-collapse-item">
+      <script>var a=localStorage.getItem("mdui-collapse-item-1");if(a){document.getElementsByClassName("mdui-collapse-item")[1].className+=" mdui-collapse-item-open"};</script>
+      <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+        <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-green">class</i>
+        <div class="mdui-list-item-content">Category</div>
+        <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+      </div>
+      <div class="mdui-collapse-item-body mdui-list mdui-list-dense">
+        
+        <a class="mdui-ripple sidebar_archives-link" href="/categories/CPP/">CPP<span class="mdui-ripple sidebar_archives-count">1</span></a><a class="mdui-ripple sidebar_archives-link" href="/categories/CPP/GDB/">GDB<span class="mdui-ripple sidebar_archives-count">1</span></a><a class="mdui-ripple sidebar_archives-link" href="/categories/hexo/">hexo<span class="mdui-ripple sidebar_archives-count">1</span></a><a class="mdui-ripple sidebar_archives-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术<span class="mdui-ripple sidebar_archives-count">1</span></a>
+        
+      </div>
+    </div>
+    <div class="mdui-collapse-item">
+      <script>var a=localStorage.getItem("mdui-collapse-item-2");if(a){document.getElementsByClassName("mdui-collapse-item")[2].className+=" mdui-collapse-item-open"};</script>
+      <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+        <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-brown">bookmark</i>
+        <div class="mdui-list-item-content">Tag</div>
+        <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+      </div>
+      <div class="mdui-collapse-item-body mdui-list mdui-list-dense">
+        
+        <a class="mdui-ripple sidebar_archives-link" href="/tags/hello-world/" rel="tag">hello world<span class="mdui-ripple sidebar_archives-count">1</span></a><a class="mdui-ripple sidebar_archives-link" href="/tags/test/" rel="tag">test<span class="mdui-ripple sidebar_archives-count">1</span></a>
+        
+      </div>
+    </div>
+    <a href="/about" class="mdui-list-item mdui-ripple">
+      <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-purple">person</i>
+      <div class="mdui-list-item-content">About</div>
+    </a>
+  </div>
+
+  <div class="mdui-divider"></div>
+
+  <div class="mdui-list" mdui-collapse="{accordion: true}">
+    
+      <a href="/timeline" class="mdui-list-item mdui-ripple">timeline</a>
+    
+      <a href="/books" class="mdui-list-item mdui-ripple">books</a>
+    
+    <div class="mdui-collapse-item">
+      <script>var a=localStorage.getItem("mdui-collapse-item-3");if(a){document.getElementsByClassName("mdui-collapse-item")[3].className+=" mdui-collapse-item-open"};</script>
+      <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+        <div class="mdui-list-item-content">Links</div>
+        <i class="mdui-list-item-icon mdui-icon material-icons">link</i>
+      </div>
+      <div class="mdui-collapse-item-body mdui-list mdui-list-dense">
+        
+        
+          <a href="javascript:;" class="mdui-list-item mdui-p-l-2 mdui-text-color-theme mdui-ripple" style="justify-content: center;">No Links</a>
+        
+      </div>
+    </div>
+  </div>
+</aside>
+  <main id="main" class="mdui-m-t-5 fadeIn animated">
+  
+<link rel="stylesheet" href="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  <style>#main article .mdui-card-content .center-block{display:block!important;margin-right:auto!important;margin-left:auto!important}</style>
+  <article class="mdui-card mdui-m-b-5">
+    <header class="mdui-card-media">
+      <!-- <img src="/images/random/material-9.png" style="max-height: 240px;"> -->
+      <img src="/images/random/10.jpg" style="max-height: 500px;">
+      <div class="mdui-card-media-covered">
+        <div class="mdui-card-primary">
+          <div class="mdui-card-primary-title">GDB调试</div>
+          <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2021-09-15 / <i class="iconfont">&#xe601;</i> ryanxw</div>
+        </div>
+      </div>
+      <div class="mdui-card-menu">
+        
+          <button class="mdui-btn mdui-btn-icon mdui-text-color-white" mdui-menu="{target: '#qrcode', align: 'right'}"><i class="mdui-icon material-icons">devices</i></button>
+          <ul class="mdui-menu" id="qrcode">
+            
+              <li class="mdui-menu-item"><a class="mdui-text-center mdui-ripple">share to phone</a></li>
+            
+            <!-- <li class="mdui-menu-item" disabled>
+              
+                <img src="https://chart.googleapis.com/chart?cht=qr&chs=246x246&chl=https://ryanxw24.github.io/2021/09/15/GDB/&chld=M|2">
+              
+            </li> -->
+          </ul>
+        
+        
+          <button class="mdui-btn mdui-btn-icon mdui-text-color-white" mdui-menu="{target: '#share_menu', align: 'right'}"><i class="mdui-icon material-icons">share</i></button>
+          <!-- <ul class="mdui-menu" id="share_menu">
+            <li class="mdui-menu-item">
+              <a href="http://service.weibo.com/share/share.php?appkey=&title=GDB调试&url=https://ryanxw24.github.io/2021/09/15/GDB/&pic=https://ryanxw24.github.io/images/favicon.png&searchPic=false&style=simple" target="_blank" class="mdui-ripple">Share to Weibo</a>
+            </li>
+            <li class="mdui-menu-item">
+              <a href="http://connect.qq.com/widget/shareqq/index.html?site=ryanxw&#39;s blog&title=GDB调试&pics=https://ryanxw24.github.io/images/favicon.png&url=https://ryanxw24.github.io/2021/09/15/GDB/" target="_blank" class="mdui-ripple">Share to QQ</a>
+            </li>
+          </ul> -->
+        
+      </div>
+    </header>
+    <div class="mdui-card-content mdui-typo">
+      <h1 id="GDB调试"><a href="#GDB调试" class="headerlink" title="GDB调试"></a>GDB调试</h1><h2 id="命令概览"><a href="#命令概览" class="headerlink" title="命令概览"></a>命令概览</h2><table>
+<thead>
+<tr>
+<th>命令名称</th>
+<th>命令缩写</th>
+<th>命令说明</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>run</td>
+<td>r</td>
+<td>运行一个程序</td>
+<td></td>
+</tr>
+<tr>
+<td>break</td>
+<td>b</td>
+<td>添加断点</td>
+<td>-b xx.cpp:line</td>
+</tr>
+<tr>
+<td>delete</td>
+<td>del</td>
+<td>删除断点</td>
+<td></td>
+</tr>
+<tr>
+<td>list</td>
+<td>l</td>
+<td>显示源代码</td>
+<td></td>
+</tr>
+<tr>
+<td>continue</td>
+<td>c</td>
+<td>让暂停的程序继续运行</td>
+<td></td>
+</tr>
+<tr>
+<td>next</td>
+<td>n</td>
+<td>运行到下一行源代码，不进入函数内部</td>
+<td></td>
+</tr>
+<tr>
+<td>step</td>
+<td>s</td>
+<td>运行到下一行源代码，进入函数内部</td>
+<td></td>
+</tr>
+<tr>
+<td>print</td>
+<td>p</td>
+<td>打印变量或者寄存器的值</td>
+<td></td>
+</tr>
+<tr>
+<td>until</td>
+<td>u</td>
+<td>运行到指定行停止下来</td>
+<td></td>
+</tr>
+<tr>
+<td>jump</td>
+<td>j</td>
+<td>将当前程序执行流跳转到指定行或地址</td>
+<td></td>
+</tr>
+<tr>
+<td>backtrace</td>
+<td>bt</td>
+<td>查看当前线程的调用堆栈</td>
+<td></td>
+</tr>
+<tr>
+<td>thread</td>
+<td>thread</td>
+<td>切换到指定线程</td>
+<td></td>
+</tr>
+<tr>
+<td>frame</td>
+<td>f</td>
+<td>切换到当前调用线程的指定堆栈,具体堆栈通过堆栈序号指定</td>
+<td></td>
+</tr>
+<tr>
+<td>info</td>
+<td>info</td>
+<td>查看断点/线程等信息</td>
+<td></td>
+</tr>
+<tr>
+<td>ptype</td>
+<td>ptype</td>
+<td>查看变量类型</td>
+<td></td>
+</tr>
+<tr>
+<td>disassemble</td>
+<td>dis</td>
+<td>查看汇编代码</td>
+<td></td>
+</tr>
+<tr>
+<td>watch</td>
+<td>watch</td>
+<td>监视某一个变量或内存地址的值是否发生变化</td>
+<td></td>
+</tr>
+<tr>
+<td>finish</td>
+<td>fin</td>
+<td>结束当前调用函数，返回到上一层函数调用处</td>
+<td></td>
+</tr>
+<tr>
+<td>return</td>
+<td>return</td>
+<td>结束当前调用函数并返回指定值，到上一层函数调用处</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="调试方法"><a href="#调试方法" class="headerlink" title="调试方法"></a>调试方法</h2><h3 id="直接调试"><a href="#直接调试" class="headerlink" title="直接调试"></a>直接调试</h3><ul>
+<li><code>gdb filename</code><br>开发过程中，编译生成目标二进制文件后，可以直接<code>gdb filename</code>开始调试，输入<code>run</code>或<code>r</code>运行程序。比如下图所示：<br>  <img src="/2021/09/15/GDB/gdb1.png" alt="gdb1"><br>启动后可以通过<code>netstat -nltp | grep 6379</code>来查看程序已经运行起来了<br>  <img src="/2021/09/15/GDB/gdb2.png" alt="gdb2"></li>
+</ul>
+<h3 id="附加进程调试"><a href="#附加进程调试" class="headerlink" title="附加进程调试"></a>附加进程调试</h3><ul>
+<li><code>gdb attach pid</code><br>如果当程序已经启动后想调试，但是不想重启程序。或者当程序在测试过程中，不能重启，一旦重启则会丢失当前的状态信息。这种情况下就使用附加进程进行调试。<ul>
+<li>获取进程pid<br><img src="/2021/09/15/GDB/gdb3.png" alt="gdb3"></li>
+<li>生成附加进程<br><img src="/2021/09/15/GDB/gdb4.png" alt="gdb4"><br>提示 “Attaching to process 8380 时即已成功将 GDB 附加到目标进程，结束调试后输入<code>detach</code>离开且不对当前进程有影响，让程序和gdb调试器分离，如下图：<br><img src="/2021/09/15/GDB/gdb5.png" alt="gdb5"></li>
+</ul>
+</li>
+</ul>
+<h3 id="core文件调试"><a href="#core文件调试" class="headerlink" title="core文件调试"></a>core文件调试</h3><p>coredump即核心转储，是进程运行崩溃瞬间的一个内存快照。操作系统在程序发生异常而异常在进程内部又没有被捕获的情况下，会把进程此刻内存、寄存器状态、运行堆栈等信息转储保存到core文件，该文件是个二进制文件，可以使用gdb进行分析。</p>
+<ul>
+<li><p>产生原因</p>
+<ul>
+<li>内存访问越界</li>
+<li>多线程程序使用了线程不安全的函数</li>
+<li>多线程读写数据未加锁保护，对于被多个线程同时访问的全局数据，要加锁保护否则会coredump</li>
+<li>非法指针</li>
+<li>堆栈溢出</li>
+</ul>
+</li>
+<li><p>查看系统产生core文件后存放的位置</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[xw@null coredump]$ cat /proc/sys/kernel/core_pattern </span><br><span class="line">/data/coredump/core_%e_%t</span><br><span class="line">- 表示产生的core文件都以core_%e_%t格式保存到/data/coredump/目录下</span><br><span class="line">-e 程序文件名</span><br><span class="line">-t 时间戳</span><br><span class="line">-p 进程ID</span><br><span class="line">-s 使进程崩溃的信号signal</span><br></pre></td></tr></table></figure></li>
+<li><p>修改core文件的存储位置</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;/data/coredump/core_%e_%t&quot; &gt; /proc/sys/kernel/core_pattern</span><br></pre></td></tr></table></figure></li>
+<li><p>修改core文件大小<br>  (1) ulimit -c 查看参数core file size的值，如果为0表示不会生成core文件，一般修改为unlimited</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[xw@null ~]$ ulimit -c</span><br><span class="line">0</span><br></pre></td></tr></table></figure>
+<p>  (2) 修改core文件大小</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[xw@null ~]$ ulimit -c unlimited</span><br><span class="line">[xw@null ~]$ ulimit -c</span><br><span class="line">unlimited</span><br></pre></td></tr></table></figure></li>
+<li><p><code>readelf -h corefile</code>查看core文件头<br>  <img src="/2021/09/15/GDB/core8.png" alt="core8"></p>
+</li>
+<li><p>gdb调试core文件</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gdb 执行文件 core文件</span><br><span class="line">where/bt 查看堆栈信息进一步分析程序</span><br></pre></td></tr></table></figure></li>
+<li><p>参考链接</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/98700797">linux coredump调试</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/46605905">gdb调试coredump</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/199841770">linux上创建并调试转储文件</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="命令详解"><a href="#命令详解" class="headerlink" title="命令详解"></a>命令详解</h2><h3 id="run"><a href="#run" class="headerlink" title="run"></a>run</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[jevenhao@gzqc-172_24_21_96-null src]$ gdb redis-server</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/09/15/GDB/gdb6.png" alt="gdb6"><br>此时只是附加了一个调试文件，程序还未启动，输入<code>run</code>命令即可运行程序。<br><img src="/2021/09/15/GDB/gdb7.png" alt="gdb7"><br>按<code>Ctrl+C</code>可以中断<code>gdb</code>,再次输入<code>r</code>后输入<code>y</code>重启程序<br><img src="/2021/09/15/GDB/gdb8.png" alt="gdb8"></p>
+<h3 id="continue"><a href="#continue" class="headerlink" title="continue"></a>continue</h3><p>按<code>Ctrl+C</code>可以中断<code>gdb</code>,输入<code>c</code>可以使程序继续运行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">^C</span><br><span class="line">Program received signal SIGINT, Interrupt.</span><br><span class="line">0x00007ffff71e9d43 in epoll_wait () from /lib64/libc.so.6</span><br><span class="line">(gdb) c</span><br><span class="line">Continuing.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="break"><a href="#break" class="headerlink" title="break"></a>break</h3><ul>
+<li><p><code>break</code>用于添加断点，添加完成后重启程序即可触发，停在断点处</p>
+<ul>
+<li><code>break func</code>在函数名入口处添加断点 </li>
+<li><code>break line</code>在当前文件行号line处添加断点</li>
+<li><code>break filename:line</code>在文件filename行号line处添加断点<br><img src="/2021/09/15/GDB/gdb9.png" alt="gdb9"></li>
+</ul>
+</li>
+<li><p>redis-server端口<code>6379</code>，端口号肯定是通过<code>bind()</code>函数创建的，搜索文件位于<code>anet.c 401 </code>行。<br>  <img src="/2021/09/15/GDB/gdb10.png" alt="gdb10"></p>
+<ul>
+<li>在<code>anet.c:401</code>处添加断点后重启触发断点<code>1</code>, <code>continue</code>后触发断点<code>2</code>。如下所示：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">(gdb) b anet.c:401</span><br><span class="line">(gdb) info b</span><br><span class="line">Num     Type           Disp Enb Address            What</span><br><span class="line">1       breakpoint     keep y   0x0000000000442962 in main at server.c:6151</span><br><span class="line">2       breakpoint     keep y   0x00000000004340e2 in anetListen at anet.c:401</span><br><span class="line">(gdb) r</span><br><span class="line">Starting program: /data/home/jevenhao/redis-6.2.3/src/redis-server </span><br><span class="line">[Thread debugging using libthread_db enabled]</span><br><span class="line">Using host libthread_db library &quot;/lib64/libthread_db.so.1&quot;.</span><br><span class="line">Breakpoint 1, main (argc=1, argv=0x7fffffffdf58) at server.c:6151</span><br><span class="line">6151        char config_from_stdin = 0;</span><br><span class="line">(gdb) c</span><br><span class="line">Breakpoint 2, anetListen (err=0xbcee50 &lt;server+752&gt; &quot;&quot;, s=10, sa=0xdf79a0, len=16, backlog=511) at anet.c:401</span><br><span class="line">401         if (bind(s,sa,len) == -1) &#123;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li>分别在<code>anet.c 404 410 412</code>处添加断点，用于判断从该函数从何处返回。如下图所示：<br><img src="/2021/09/15/GDB/gdb12.png" alt="gdb12"></li>
+<li><code>continue</code>可以看到触发断点<code>5</code>。如下图所示：<br><img src="/2021/09/15/GDB/gdb13.png" alt="gdb13"></li>
+</ul>
+</li>
+</ul>
+<h3 id="backtrace-和-frame"><a href="#backtrace-和-frame" class="headerlink" title="backtrace 和 frame"></a>backtrace 和 frame</h3><ul>
+<li><p><code>backtrace</code>用于查看堆栈信息。<code>frame</code>用于切换到某个堆栈处。上面的gdb程序中断在<code>anet.c:412</code>处</p>
+<ul>
+<li><p><code>bt</code>查看此时的堆栈信息共有6层堆栈<code>#0 ~ #5</code>，如下图所示：<br><img src="/2021/09/15/GDB/gdb15.png" alt="gdb15"></p>
+</li>
+<li><p><code>frame 堆栈编号</code>切换堆栈信息，如下图所示：<br><img src="/2021/09/15/GDB/gdb14.png" alt="gdb14"><br>  可以得到调用关系</p>
+<ul>
+<li><code>main()</code>函数在6322行调用<code>initServer()</code>函数</li>
+<li><code>initServer()</code>函数在3195行调用<code>listenToPort()</code>函数</li>
+<li><code>listenToPort()</code>函数在3052行调用<code>anetTcpServer()</code>函数</li>
+<li><code>anetTcpServer()</code>函数在468行调用<code>_anetTcpServer()</code>函数</li>
+<li><code>_anetTcpServer()</code>函数在450行调用<code>anetListen()</code>函数</li>
+<li>此时断点正停在<code>anetListen()</code>函数中</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="info-break、enable、disable、delete"><a href="#info-break、enable、disable、delete" class="headerlink" title="info break、enable、disable、delete"></a>info break、enable、disable、delete</h3><ul>
+<li><code>info b</code>查看断点个数<br>  <img src="/2021/09/15/GDB/gdb16.png" alt="gdb16"></li>
+<li><code>enable num</code>启用编号为num的断点，不加参数表示全部启用</li>
+<li><code>disable num</code>禁用编号为num的断点，不加参数表示全部禁用</li>
+<li><code>delete num</code>删除编号为num的断点，不加参数表示全部删除  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">(gdb) info b</span><br><span class="line">Num     Type           Disp Enb Address            What</span><br><span class="line">1       breakpoint     keep y   0x0000000000442962 in main at server.c:6151</span><br><span class="line">        breakpoint already hit 1 time</span><br><span class="line">2       breakpoint     keep y   0x00000000004340e2 in anetListen at anet.c:401</span><br><span class="line">        breakpoint already hit 2 times</span><br><span class="line">3       breakpoint     keep y   0x000000000043412c in anetListen at anet.c:404</span><br><span class="line">4       breakpoint     keep y   0x0000000000434178 in anetListen at anet.c:410</span><br><span class="line">5       breakpoint     keep y   0x000000000043417f in anetListen at anet.c:412</span><br><span class="line">        breakpoint already hit 1 time</span><br><span class="line">(gdb) disable 4</span><br><span class="line">(gdb) info b</span><br><span class="line">Num     Type           Disp Enb Address            What</span><br><span class="line">1       breakpoint     keep y   0x0000000000442962 in main at server.c:6151</span><br><span class="line">        breakpoint already hit 1 time</span><br><span class="line">2       breakpoint     keep y   0x00000000004340e2 in anetListen at anet.c:401</span><br><span class="line">        breakpoint already hit 2 times</span><br><span class="line">3       breakpoint     keep y   0x000000000043412c in anetListen at anet.c:404</span><br><span class="line">4       breakpoint     keep n   0x0000000000434178 in anetListen at anet.c:410</span><br><span class="line">5       breakpoint     keep y   0x000000000043417f in anetListen at anet.c:412</span><br><span class="line">        breakpoint already hit 1 time</span><br><span class="line">(gdb) delete 3</span><br><span class="line">(gdb) info b</span><br><span class="line">Num     Type           Disp Enb Address            What</span><br><span class="line">1       breakpoint     keep y   0x0000000000442962 in main at server.c:6151</span><br><span class="line">        breakpoint already hit 1 time</span><br><span class="line">2       breakpoint     keep y   0x00000000004340e2 in anetListen at anet.c:401</span><br><span class="line">        breakpoint already hit 2 times</span><br><span class="line">4       breakpoint     keep n   0x0000000000434178 in anetListen at anet.c:410</span><br><span class="line">5       breakpoint     keep y   0x000000000043417f in anetListen at anet.c:412</span><br><span class="line">        breakpoint already hit 1 time</span><br><span class="line">(gdb) disable </span><br><span class="line">(gdb) info b</span><br><span class="line">Num     Type           Disp Enb Address            What</span><br><span class="line">1       breakpoint     keep n   0x0000000000442962 in main at server.c:6151</span><br><span class="line">        breakpoint already hit 1 time</span><br><span class="line">2       breakpoint     keep n   0x00000000004340e2 in anetListen at anet.c:401</span><br><span class="line">        breakpoint already hit 2 times</span><br><span class="line">4       breakpoint     keep n   0x0000000000434178 in anetListen at anet.c:410</span><br><span class="line">5       breakpoint     keep n   0x000000000043417f in anetListen at anet.c:412</span><br><span class="line">        breakpoint already hit 1 time</span><br><span class="line">(gdb) enable </span><br><span class="line">(gdb) info b</span><br><span class="line">Num     Type           Disp Enb Address            What</span><br><span class="line">1       breakpoint     keep y   0x0000000000442962 in main at server.c:6151</span><br><span class="line">        breakpoint already hit 1 time</span><br><span class="line">2       breakpoint     keep y   0x00000000004340e2 in anetListen at anet.c:401</span><br><span class="line">        breakpoint already hit 2 times</span><br><span class="line">4       breakpoint     keep y   0x0000000000434178 in anetListen at anet.c:410</span><br><span class="line">5       breakpoint     keep y   0x000000000043417f in anetListen at anet.c:412</span><br><span class="line">        breakpoint already hit 1 time</span><br><span class="line">(gdb) delete </span><br><span class="line">Delete all breakpoints? (y or n) y       </span><br><span class="line">(gdb) info b</span><br><span class="line">No breakpoints or watchpoints.</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="list"><a href="#list" class="headerlink" title="list"></a>list</h3><ul>
+<li><code>list</code>用于显示源码，默认显示10行。如图所示：<br>  <img src="/2021/09/15/GDB/gdb17.png" alt="gdb17"></li>
+</ul>
+<h3 id="print、ptype"><a href="#print、ptype" class="headerlink" title="print、ptype"></a>print、ptype</h3><ul>
+<li><code>print</code>用于查看变量的值，<code>ptype</code>用于查看变量类型。如下所示：  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">(gdb) f 4</span><br><span class="line">#4  0x000000000043b304 in initServer () at server.c:3195</span><br><span class="line">3195            listenToPort(server.port,&amp;server.ipfd) == C_ERR) &#123;</span><br><span class="line">(gdb) p server.port</span><br><span class="line">$1 = 6379</span><br><span class="line">(gdb) ptype server</span><br><span class="line">type = struct redisServer &#123;</span><br><span class="line">    pid_t pid;</span><br><span class="line">    pthread_t main_thread_id;</span><br><span class="line">    char *configfile;</span><br><span class="line">    char *executable;</span><br><span class="line">    char **exec_argv;</span><br><span class="line">    int dynamic_hz;</span><br><span class="line">    int config_hz;</span><br><span class="line">    mode_t umask;</span><br><span class="line">    ....&#125;</span><br><span class="line">(gdb) ptype server.port</span><br><span class="line">type = int</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="info-和-thread"><a href="#info-和-thread" class="headerlink" title="info 和 thread"></a>info 和 thread</h3><ul>
+<li><p><code>info thread</code>查看<code>redis-server</code>启动后一共产生<code>5</code>个线程，<code>1</code>个主线程和<code>4</code>个工作线程。主线程阻塞在<code>epoll_wait()</code>处，其他工作线程阻塞在<code>pthread_cond_wait()</code>处。<code>*</code>表示的是当前<code>gdb</code>作用于哪个线程上，而不是<code>*</code>就代表指向主线程。<br>  <img src="/2021/09/15/GDB/gdb18.png" alt="gdb18"></p>
+</li>
+<li><p><code>bt</code>查看当前线程的调用堆栈，如下图所示：<br>  <img src="/2021/09/15/GDB/gdb19.png" alt="gdb19"><br>堆栈#4上显示的调用<code>main()</code>函数表示当前线程即主线程。</p>
+</li>
+</ul>
+<ul>
+<li><code>thread num</code>切换到其他线程<br>  <img src="/2021/09/15/GDB/gdb20.png" alt="gdb20"></li>
+</ul>
+<h3 id="next-和-step"><a href="#next-和-step" class="headerlink" title="next 和 step"></a>next 和 step</h3><ul>
+<li><code>next</code>单步步过(step over)，遇到函数直接跳过不会进入函数内部。(回车键默认是将最近的一条命令执行)</li>
+<li><code>step</code>单步步入(step into)，遇到函数进入函数内部。</li>
+</ul>
+<h3 id="until-和-jump"><a href="#until-和-jump" class="headerlink" title="until 和 jump"></a>until 和 jump</h3><ul>
+<li><code>until</code>可以指定程序运行到某一行停下来。</li>
+<li><code>jump</code>可以指定程序执行流跳转到指定位置执行，若跳转的地方没有断点则会继续执行，可以用于测试异常分支代码。</li>
+</ul>
+<h3 id="finish-和-return"><a href="#finish-和-return" class="headerlink" title="finish 和 return"></a>finish 和 return</h3><ul>
+<li><code>finish</code>命令会执行函数到正常退出该函数。</li>
+<li><code>return</code>命令是立即结束执行当前函数并返回，即使当前函数还有剩余的代码未执行完毕，也不会执行。</li>
+</ul>
+<h3 id="disassemble"><a href="#disassemble" class="headerlink" title="disassemble"></a>disassemble</h3><ul>
+<li><code>disassemble</code>命令查看汇编代码，一般用于高级调试选哟查看某段代码的汇编指令，或调试没有调式信息的发版程序。<br>  <img src="/2021/09/15/GDB/gdb21.png" alt="gdb21"></li>
+</ul>
+<h3 id="set-args-和-show-args"><a href="#set-args-和-show-args" class="headerlink" title="set args 和 show args"></a>set args 和 show args</h3><ul>
+<li><code>set args</code>用于传递命令行参数。做法：<code>gdb</code>附加程序，在<code>run</code>之前，使用<code>set args 参数内容</code>来传递命令行参数。</li>
+<li><code>show args</code>用于查看命令行参数是否设置成功。<br>  <img src="/2021/09/15/GDB/gdb22.png" alt="gdb22"></li>
+</ul>
+<h3 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h3><p>用于监视一个变量或者一段内存，当其值发生变化时，<code>gdb</code>会中断下来。被监视的变量或内存会产生一个<code>watch point</code>(观察点)。</p>
+<ul>
+<li><p>watch命令时通过添加硬件断点来实现监视数据变化，格式：<code>watch 变量名/内存地址</code>。</p>
+<ul>
+<li><p>整形变量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int i;</span><br><span class="line">watch i</span><br></pre></td></tr></table></figure></li>
+<li><p>指针类型</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">char *p;</span><br><span class="line">watch p </span><br><span class="line">watch *p</span><br></pre></td></tr></table></figure></li>
+<li><p>数组/内存区间（这里是对buf的128个数据监视，不是采用硬件中断，是用软中断实现）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">char buf[10];</span><br><span class="line">watch buf</span><br></pre></td></tr></table></figure></li>
+<li><p>程序例子，可见<code>watch</code>的变量<code>a</code>的值在发生变化时会中断</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    int a = 1;</span><br><span class="line">    while (a &lt;= 5)</span><br><span class="line">    &#123;</span><br><span class="line">        a = a*2;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; a &lt;&lt; endl;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/09/15/GDB/gdb23.png" alt="gdb23"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="多进程-线程调试"><a href="#多进程-线程调试" class="headerlink" title="多进程/线程调试"></a>多进程/线程调试</h3><ul>
+<li><p>调试父子进程</p>
+<ul>
+<li><code>gdb</code>调试父进程，等子进程<code>fork</code>完成后，使用<code>gdb attach pid</code>进入子进程，需要重新开启一个窗口用于调试。</li>
+<li><code>gdb</code>调试器提供选项<code>follow-fork</code>，可以使用<code>show follow-fork mode</code>查看当前值，也可以通过<code>set follow-fork mode</code>来设置是当一个进程<code>fork</code>出新的子进程时，<code>gdb</code>时继续调试父进程还是子进程（取值<code>child</code>），默认是父进程（取值<code>parent</code>）</li>
+</ul>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(gdb) show follow-fork mode     </span><br><span class="line">Debugger response to a program call of fork or vfork is &quot;parent&quot;.</span><br><span class="line">(gdb) set follow-fork child</span><br><span class="line">(gdb) show follow-fork mode</span><br><span class="line">Debugger response to a program call of fork or vfork is &quot;child&quot;.</span><br><span class="line">(gdb)</span><br></pre></td></tr></table></figure></li>
+<li><p>spp 线程</p>
+<ul>
+<li>在<code>tool</code>目录下将服务停止</li>
+<li>进入<code>bin</code>目录<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">./spp_xxx_proxy ../etc/spp_proxy.xml</span><br><span class="line">gdb --args ./spp_xxx_worker ../etc/spp_worker1.xml</span><br><span class="line">set follow-fork-mode child</span><br><span class="line">b 设置断点</span><br><span class="line">r 运行程序</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+
+      
+      <blockquote>
+        
+        <!-- <strong>permalink</strong><br><a href="https://ryanxw24.github.io/2021/09/15/GDB/">https://ryanxw24.github.io/2021/09/15/GDB/</a> -->
+      </blockquote>
+    </div>
+    <footer class="mdui-card-actions">
+      
+        <a class="mdui-ripple article_categories-link" href="/categories/CPP/">CPP</a><a class="mdui-ripple article_categories-link" href="/categories/CPP/GDB/">GDB</a>
+      
+      
+    </footer>
+    
+  </article>
+  
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+  <script>$("#main article .mdui-card-content img.fancybox").on("click",function(e){$.fancybox.open({src:$(this).attr("src")});});</script>
+
+
+  <nav id="paginator">
+    
+    <div class="spacer"></div>
+    
+      <a rel="next" class="extend next" href="/2021/09/12/hello-world/">
+        <span class="mdui-p-x-3" mdui-tooltip="{content: 'Hello World'}">Next</span>
+        <button aria-label="next" class="mdui-btn mdui-btn-raised mdui-btn-icon mdui-color-theme-accent mdui-ripple"><i class="mdui-icon material-icons">arrow_forward</i></button>
+      </a>
+    
+  </nav>
+
+
+
+
+  <div style="position: fixed !important; right: 16px; top: 30%;">
+    <button class="mdui-fab mdui-fab-mini mdui-ripple" mdui-menu="{target: '#toc'}"><i class="mdui-icon material-icons">toc</i></button>
+    <ul class="mdui-menu" id="toc">
+      <li class="mdui-menu-item" disabled><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#GDB%E8%B0%83%E8%AF%95"><span class="toc-text">GDB调试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%A6%82%E8%A7%88"><span class="toc-text">命令概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95"><span class="toc-text">调试方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E8%B0%83%E8%AF%95"><span class="toc-text">直接调试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%84%E5%8A%A0%E8%BF%9B%E7%A8%8B%E8%B0%83%E8%AF%95"><span class="toc-text">附加进程调试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#core%E6%96%87%E4%BB%B6%E8%B0%83%E8%AF%95"><span class="toc-text">core文件调试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3"><span class="toc-text">命令详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#run"><span class="toc-text">run</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#continue"><span class="toc-text">continue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#break"><span class="toc-text">break</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#backtrace-%E5%92%8C-frame"><span class="toc-text">backtrace 和 frame</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#info-break%E3%80%81enable%E3%80%81disable%E3%80%81delete"><span class="toc-text">info break、enable、disable、delete</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#list"><span class="toc-text">list</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#print%E3%80%81ptype"><span class="toc-text">print、ptype</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#info-%E5%92%8C-thread"><span class="toc-text">info 和 thread</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#next-%E5%92%8C-step"><span class="toc-text">next 和 step</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#until-%E5%92%8C-jump"><span class="toc-text">until 和 jump</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#finish-%E5%92%8C-return"><span class="toc-text">finish 和 return</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#disassemble"><span class="toc-text">disassemble</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#set-args-%E5%92%8C-show-args"><span class="toc-text">set args 和 show args</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#watch"><span class="toc-text">watch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E8%BF%9B%E7%A8%8B-%E7%BA%BF%E7%A8%8B%E8%B0%83%E8%AF%95"><span class="toc-text">多进程&#x2F;线程调试</span></a></li></ol></li></ol></li></ol></li>
+    </ul>
+  </div>
+</main>
+  <footer id="footer" class="mdui-m-t-5 mdui-p-y-3 mdui-color-theme">
+  <div class="mdui-p-y-0 mdui-text-center">
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </div>
+  <div class="mdui-p-y-1 mdui-text-center">
+    Copyright &copy; 2021 ryanxw<br>
+    Powered by <a href="https://hexo.io/" target="_blank" class="mdui-text-color-theme-accent">Hexo</a>
+    
+  </div>
+</footer>
+  <button id="gotop" class="mdui-fab mdui-fab-fixed mdui-fab-hide mdui-color-theme-accent mdui-ripple"><i class="mdui-icon material-icons">arrow_upward</i></button>
+  
+  
+<script src="/js/mdui.js"></script>
+<script src="/js/script.js"></script>
+
+  
+<script src="/custom.js"></script>
+
+</body>
+</html>
