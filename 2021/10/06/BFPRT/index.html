@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="renderer" content="webkit">
+
+  
+  <title>BFPRT | ryanxw&#39;s blog</title>
+
+  <link rel="shortcut icon" href="/images/favicon.png">
+  <link rel="alternate" href="/atom.xml" title="ryanxw's blog" type="application/atom+xml">
+  <meta name="description" content="BFPRT1. 概念用于解决TopK问题。  TopK问题：从长度为N的无序数组中找出前K大的数 BFPRT算法：1973年，由5位科学家 Blum 、 Floyd 、 Pratt 、 Rivest 、 Tarjan发表了一篇 “Time bounds for selection” 的论文，讲述了如何选取第K大的元素，也称为”Median of medians”，即中位数的中位数算法。该算法的时间">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BFPRT">
+<meta property="og:url" content="https://ryanxw24.github.io/2021/10/06/BFPRT/index.html">
+<meta property="og:site_name" content="ryanxw&#39;s blog">
+<meta property="og:description" content="BFPRT1. 概念用于解决TopK问题。  TopK问题：从长度为N的无序数组中找出前K大的数 BFPRT算法：1973年，由5位科学家 Blum 、 Floyd 、 Pratt 、 Rivest 、 Tarjan发表了一篇 “Time bounds for selection” 的论文，讲述了如何选取第K大的元素，也称为”Median of medians”，即中位数的中位数算法。该算法的时间">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ryanxw24.github.io/2021/10/06/BFPRT/Untitled.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2021/10/06/BFPRT/Untitled1.png">
+<meta property="article:published_time" content="2021-10-05T18:40:00.000Z">
+<meta property="article:modified_time" content="2022-03-05T18:48:23.621Z">
+<meta property="article:author" content="ryanxw">
+<meta property="article:tag" content="algo-TopK">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ryanxw24.github.io/2021/10/06/BFPRT/Untitled.png">
+
+  <meta name="keywords" content=",algo-TopK">
+  <meta name="format-detection" content="telephone=no,email=no">
+  <meta name="theme-color" content="#9C27B0">
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="ryanxw&#39;s blog">
+  <meta name="msapplication-starturl" content="https://ryanxw24.github.io/2021/10/06/BFPRT/">
+  <meta name="msapplication-navbutton-color" content="#9C27B0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="ryanxw&#39;s blog">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="apple-touch-icon" href="/images/favicon.png">
+
+  
+    <link rel="canonical" href="https://ryanxw24.github.io/2021/10/06/BFPRT/">
+  
+
+  
+  
+
+  
+  
+  
+
+  
+<link rel="stylesheet" href="/css/mdui.css">
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/custom.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<!-- <body class="mdui-appbar-with-toolbar mdui-theme-primary-indigo mdui-theme-accent-black"> -->
+<body class="mdui-appbar-with-toolbar mdui-theme-primary-indigo mdui-theme-accent-black">
+  <script>var a=localStorage.getItem("mdui-theme-layout-dark");if(a){document.getElementsByTagName("body")[0].className+=" mdui-theme-layout-dark"};</script>
+  <script>if(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches){document.getElementsByTagName("body")[0].className+=" mdui-theme-layout-dark"};</script>
+  <script>var a=localStorage.getItem("mdui-drawer-close");if(!a){document.getElementsByTagName("body")[0].className+=" mdui-drawer-body-left"};</script>
+  <header id="header" class="mdui-appbar mdui-appbar-fixed mdui-appbar-scroll-hide mdui-appbar-inset">
+  <div class="mdui-toolbar mdui-color-theme">
+    <a href="javascript:;" class="mdui-btn mdui-btn-icon" mdui-drawer="{target: '#sidebar', swipe: true}"><i class="mdui-icon material-icons">menu</i></a>
+    <a href="/" class="mdui-typo-headline">ryanxw&#39;s blog</a>
+    <div class="mdui-toolbar-spacer"></div>
+    <a href="javascript:;" class="mdui-btn mdui-btn-icon" mdui-dialog="{target: '#search'}" mdui-tooltip="{content: 'Search'}"><i class="mdui-icon material-icons">search</i></a>
+    <a href="/atom.xml" class="mdui-btn mdui-btn-icon" mdui-tooltip="{content: 'RSS'}"><i class="mdui-icon material-icons">rss_feed</i></a>
+  </div>
+</header>
+<div class="mdui-dialog" id="search">
+  
+    <div class="search-form">
+      <input type="search" class="search-form-input" placeholder="请输入关键字">
+    </div>
+    <div class="search-result" data-resource="/search.xml"></div>
+  
+</div>
+  <aside id="sidebar" class="mdui-drawer mdui-drawer-full-height">
+  <script>var a=localStorage.getItem("mdui-drawer-close");if(a){document.getElementById("sidebar").className+=" mdui-drawer-close"};</script>
+  <div class="mdui-grid-tile">
+    <img src="/images/banner.png" style="height: 160px;">
+    <img src="/images/nk.png" class="avatar-animation" style="position: absolute; top: 10%; left: 24px; width: 64px; height: 64px; border: 2px solid #fff; border-radius: 50%;">
+    <div class="mdui-grid-tile-actions">
+      <div class="mdui-grid-tile-text">
+        <div class="mdui-grid-tile-title">ryanxw</div>
+        <div class="mdui-grid-tile-subtitle"><i class="mdui-icon material-icons">art_track</i>流水不争先，争滔滔不绝</div>
+      </div>
+      
+    </div>
+  </div>
+
+  <div class="mdui-list" mdui-collapse="{accordion: true}">
+    <a href="/" class="mdui-list-item mdui-ripple">
+      <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">home</i>
+      <div class="mdui-list-item-content">Home</div>
+    </a>
+    <div class="mdui-collapse-item">
+      <script>var a=localStorage.getItem("mdui-collapse-item-0");if(a){document.getElementsByClassName("mdui-collapse-item")[0].className+=" mdui-collapse-item-open"};</script>
+      <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+        <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-deep-orange">archive</i>
+        <div class="mdui-list-item-content">Archive</div>
+        <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+      </div>
+      <div class="mdui-collapse-item-body mdui-list mdui-list-dense">
+        
+        <a class="mdui-ripple sidebar_archives-link" href="/archives/2021/10/">October 2021<span class="mdui-ripple sidebar_archives-count">2</span></a><a class="mdui-ripple sidebar_archives-link" href="/archives/2021/09/">September 2021<span class="mdui-ripple sidebar_archives-count">7</span></a>
+        
+      </div>
+    </div>
+    <div class="mdui-collapse-item">
+      <script>var a=localStorage.getItem("mdui-collapse-item-1");if(a){document.getElementsByClassName("mdui-collapse-item")[1].className+=" mdui-collapse-item-open"};</script>
+      <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+        <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-green">class</i>
+        <div class="mdui-list-item-content">Category</div>
+        <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+      </div>
+      <div class="mdui-collapse-item-body mdui-list mdui-list-dense">
+        
+        <a class="mdui-ripple sidebar_archives-link" href="/categories/CPP/">CPP<span class="mdui-ripple sidebar_archives-count">1</span></a><a class="mdui-ripple sidebar_archives-link" href="/categories/algorithm/">algorithm<span class="mdui-ripple sidebar_archives-count">7</span></a><a class="mdui-ripple sidebar_archives-link" href="/categories/hexo/">hexo<span class="mdui-ripple sidebar_archives-count">1</span></a>
+        
+      </div>
+    </div>
+    <div class="mdui-collapse-item">
+      <script>var a=localStorage.getItem("mdui-collapse-item-2");if(a){document.getElementsByClassName("mdui-collapse-item")[2].className+=" mdui-collapse-item-open"};</script>
+      <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+        <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-brown">bookmark</i>
+        <div class="mdui-list-item-content">Tag</div>
+        <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+      </div>
+      <div class="mdui-collapse-item-body mdui-list mdui-list-dense">
+        
+        <a class="mdui-ripple sidebar_archives-link" href="/tags/GDB/" rel="tag">GDB<span class="mdui-ripple sidebar_archives-count">1</span></a><a class="mdui-ripple sidebar_archives-link" href="/tags/algo-BinarySearch/" rel="tag">algo-BinarySearch<span class="mdui-ripple sidebar_archives-count">3</span></a><a class="mdui-ripple sidebar_archives-link" href="/tags/algo-String/" rel="tag">algo-String<span class="mdui-ripple sidebar_archives-count">2</span></a><a class="mdui-ripple sidebar_archives-link" href="/tags/algo-TopK/" rel="tag">algo-TopK<span class="mdui-ripple sidebar_archives-count">1</span></a><a class="mdui-ripple sidebar_archives-link" href="/tags/algo-sort/" rel="tag">algo-sort<span class="mdui-ripple sidebar_archives-count">1</span></a><a class="mdui-ripple sidebar_archives-link" href="/tags/hello-world/" rel="tag">hello world<span class="mdui-ripple sidebar_archives-count">1</span></a>
+        
+      </div>
+    </div>
+    <a href="/about" class="mdui-list-item mdui-ripple">
+      <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-purple">person</i>
+      <div class="mdui-list-item-content">About</div>
+    </a>
+  </div>
+
+  <div class="mdui-divider"></div>
+
+  <div class="mdui-list" mdui-collapse="{accordion: true}">
+    
+      <a href="/timeline" class="mdui-list-item mdui-ripple">timeline</a>
+    
+      <a href="/books" class="mdui-list-item mdui-ripple">books</a>
+    
+    <div class="mdui-collapse-item">
+      <script>var a=localStorage.getItem("mdui-collapse-item-3");if(a){document.getElementsByClassName("mdui-collapse-item")[3].className+=" mdui-collapse-item-open"};</script>
+      <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+        <div class="mdui-list-item-content">Links</div>
+        <i class="mdui-list-item-icon mdui-icon material-icons">link</i>
+      </div>
+      <div class="mdui-collapse-item-body mdui-list mdui-list-dense">
+        
+        
+          <a href="javascript:;" class="mdui-list-item mdui-p-l-2 mdui-text-color-theme mdui-ripple" style="justify-content: center;">No Links</a>
+        
+      </div>
+    </div>
+  </div>
+</aside>
+  <main id="main" class="mdui-m-t-5 fadeIn animated">
+  
+<link rel="stylesheet" href="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  <style>#main article .mdui-card-content .center-block{display:block!important;margin-right:auto!important;margin-left:auto!important}</style>
+  <article class="mdui-card mdui-m-b-5">
+    <header class="mdui-card-media">
+      <!-- <img src="/images/random/material-16.png" style="max-height: 240px;"> -->
+      <img src="/images/random/9.jpg" style="max-height: 500px;">
+      <div class="mdui-card-media-covered">
+        <div class="mdui-card-primary">
+          <div class="mdui-card-primary-title">BFPRT</div>
+          <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2021-10-06 / <i class="iconfont">&#xe601;</i> ryanxw</div>
+        </div>
+      </div>
+      <div class="mdui-card-menu">
+        
+          <button class="mdui-btn mdui-btn-icon mdui-text-color-white" mdui-menu="{target: '#qrcode', align: 'right'}"><i class="mdui-icon material-icons">devices</i></button>
+          <ul class="mdui-menu" id="qrcode">
+            
+              <li class="mdui-menu-item"><a class="mdui-text-center mdui-ripple">share to phone</a></li>
+            
+            <!-- <li class="mdui-menu-item" disabled>
+              
+                <img src="https://chart.googleapis.com/chart?cht=qr&chs=246x246&chl=https://ryanxw24.github.io/2021/10/06/BFPRT/&chld=M|2">
+              
+            </li> -->
+          </ul>
+        
+        
+          <button class="mdui-btn mdui-btn-icon mdui-text-color-white" mdui-menu="{target: '#share_menu', align: 'right'}"><i class="mdui-icon material-icons">share</i></button>
+          <!-- <ul class="mdui-menu" id="share_menu">
+            <li class="mdui-menu-item">
+              <a href="http://service.weibo.com/share/share.php?appkey=&title=BFPRT&url=https://ryanxw24.github.io/2021/10/06/BFPRT/&pic=https://ryanxw24.github.io/images/favicon.png&searchPic=false&style=simple" target="_blank" class="mdui-ripple">Share to Weibo</a>
+            </li>
+            <li class="mdui-menu-item">
+              <a href="http://connect.qq.com/widget/shareqq/index.html?site=ryanxw&#39;s blog&title=BFPRT&pics=https://ryanxw24.github.io/images/favicon.png&url=https://ryanxw24.github.io/2021/10/06/BFPRT/" target="_blank" class="mdui-ripple">Share to QQ</a>
+            </li>
+          </ul> -->
+        
+      </div>
+    </header>
+    <div class="mdui-card-content mdui-typo">
+      <h1 id="BFPRT"><a href="#BFPRT" class="headerlink" title="BFPRT"></a>BFPRT</h1><h1 id="1-概念"><a href="#1-概念" class="headerlink" title="1. 概念"></a>1. 概念</h1><p>用于解决TopK问题。</p>
+<ul>
+<li>TopK问题：从长度为N的<strong>无序数组</strong>中找出前K大的数</li>
+<li>BFPRT算法：1973年，由5位科学家 Blum 、 Floyd 、 Pratt 、 Rivest 、 Tarjan发表了一篇 <a target="_blank" rel="noopener" href="https://people.csail.mit.edu/rivest/BlumFloydPrattRivestTarjan-TimeBoundsForSelection.pdf">“Time bounds for selection”</a> 的论文，讲述了如何选取第K大的元素，也称为”Median of medians”，即中位数的中位数算法。<strong>该算法的时间复杂度可以严格收敛到O(n)级别。</strong></li>
+</ul>
+<h1 id="2-实现原理"><a href="#2-实现原理" class="headerlink" title="2. 实现原理"></a>2. 实现原理</h1><p>假设现在存在一个函数 GetKthNum(arr[], k)  可以获取到第k大的数，这个函数中要做哪些事情：</p>
+<ul>
+<li>数组的长度为n，则每5个划分为1组，不够5个元素的单独成组，一共由n/5组。时间复杂度：O(1)</li>
+<li>每5个数在组内排序，组与组之间无序。时间复杂度：O(1) * n / 5 = O(n)</li>
+<li>将排好序的每组中的<strong>上中位数</strong>取出来单独成组MediansArr，该组的长度为n/5。然后递归的调用GetKthNum(MediansArr, n/10) 函数，目的是为了获取到中位数数组的中位数Pivot。<ul>
+<li>上中位数：（1，2，3，4，5）取3，（1，2，3，4）取2</li>
+<li>为什么是n/10，因为数组的长度是n/5，其中位数的一定是处于n/10的位置。</li>
+<li>时间复杂度：自己调用自己，T(n/5)</li>
+</ul>
+</li>
+<li>此时用Pivot去进行快排中提到的 partition 过程，时间复杂度：O(n)<ul>
+<li>&lt; Pivot 的数放在左边</li>
+<li>= Pivot 的数放在中间</li>
+<li><blockquote>
+<p>Pivot 的数放在右边</p>
+</blockquote>
+</li>
+</ul>
+  将返回的等于区域数组pArr，判断是否命中K<ul>
+<li>pArr[0] == K，停止</li>
+<li>pArr[0] &gt; K，左半部分进行递归</li>
+<li>pArr[0] &lt; K，右半部分进行递归</li>
+</ul>
+</li>
+<li>上面的递归过程每次都可以严格的淘汰掉至少n*3/10的数据量，看图很容易明白：  <img src="/2021/10/06/BFPRT/Untitled.png" alt="Untitled">  一共有n/5组，中位数数组的中位数值为Pivot，在该数组中有n/10个数的值比Pivot小，这些数字在各自的小数组中又是中位数，则表示这些组每组存在3/5个数比Pivot小，所以在原数组中就至少有<strong>n*3/10</strong>的数据量比Pivot小。也就是最多<strong>n*7/10</strong>有比Pivot大，确定了递归规模。</li>
+<li>整体时间复杂度T(n) = T(n/5) + T(n*7/10) + O(n)，可以收敛到O(n)，证明（<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/291206708">参考链接</a>）如下：  <img src="/2021/10/06/BFPRT/Untitled1.png" alt="Untitled"></li>
+</ul>
+<h1 id="3-代码实现"><a href="#3-代码实现" class="headerlink" title="3. 代码实现"></a>3. 代码实现</h1><h2 id="3-1-Partition过程回顾"><a href="#3-1-Partition过程回顾" class="headerlink" title="3.1 Partition过程回顾"></a>3.1 Partition过程回顾</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">vector <span class="title">partition</span><span class="params">(<span class="keyword">int</span> arr[], <span class="keyword">int</span> l, <span class="keyword">int</span> r, <span class="keyword">int</span> pivot)</span> </span>&#123;</span><br><span class="line">    vector&lt;<span class="keyword">int</span>&gt; equals;</span><br><span class="line">    <span class="keyword">int</span> less = l - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> more = r;</span><br><span class="line">    <span class="keyword">int</span> m = l;</span><br><span class="line">    <span class="keyword">while</span> (m &lt;= more) &#123;</span><br><span class="line">        <span class="keyword">if</span> (arr[m] == pivot) &#123;</span><br><span class="line">            m++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (arr[m] &gt; pivot) &#123;</span><br><span class="line">            <span class="built_in">swap</span>(arr[more--], arr[m]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (arr[m] &lt; pivot) &#123;</span><br><span class="line">            <span class="built_in">swap</span>(arr[++less], arr[m++]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    equals.<span class="built_in">push_back</span>(less + <span class="number">1</span>);</span><br><span class="line">    equals.<span class="built_in">push_back</span>(more);</span><br><span class="line">    <span class="keyword">return</span> equals;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-2-BFPRT实现"><a href="#3-2-BFPRT实现" class="headerlink" title="3.2 BFPRT实现"></a>3.2 BFPRT实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span>* <span class="title">get_min_kth_nums_by_bfprt</span><span class="params">(<span class="keyword">int</span> arr[], <span class="keyword">int</span> len, <span class="keyword">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (k &lt; <span class="number">1</span> || k &gt; len)   <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">int</span> kth_num_val = <span class="built_in">get_indexth_num_of_arr</span>(arr, <span class="number">0</span>, len - <span class="number">1</span>, k - <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">int</span>* res = <span class="keyword">new</span> <span class="keyword">int</span>[k];</span><br><span class="line">    <span class="keyword">int</span> ik = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; ++i)&#123;</span><br><span class="line">        <span class="keyword">if</span> (arr[i] &lt;= kth_num_val)</span><br><span class="line">        &#123;</span><br><span class="line">            res[ik++] = arr[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">get_indexth_num_of_arr</span><span class="params">(<span class="keyword">int</span> arr[], <span class="keyword">int</span> l, <span class="keyword">int</span> r, <span class="keyword">int</span> index)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (l == r) <span class="keyword">return</span> arr[l];</span><br><span class="line">    <span class="keyword">int</span> p = <span class="built_in">get_median_of_medians_arr</span>(arr, l, r);</span><br><span class="line">    <span class="comment">// cout &lt;&lt; &quot;------------p------------&quot; &lt;&lt; p &lt;&lt; endl;</span></span><br><span class="line">    <span class="keyword">int</span>* part_res = <span class="built_in">partition</span>(arr, l, r, p);</span><br><span class="line">    <span class="comment">// cout &lt;&lt; &quot;part_res [0] = &quot; &lt;&lt; part_res[0] &lt;&lt; &quot;, part_res[1] = &quot; &lt;&lt; part_res[1] &lt;&lt; endl;</span></span><br><span class="line">    <span class="keyword">if</span> (index &gt;= part_res[<span class="number">0</span>] &amp;&amp; index &lt;= part_res[<span class="number">1</span>])&#123;</span><br><span class="line">        <span class="keyword">return</span> arr[index];</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (index &lt; part_res[<span class="number">0</span>])&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">get_indexth_num_of_arr</span>(arr, l, part_res[<span class="number">0</span>] - <span class="number">1</span>, index);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">get_indexth_num_of_arr</span>(arr, part_res[<span class="number">1</span>] + <span class="number">1</span>, r, index);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span>* <span class="title">partition</span><span class="params">(<span class="keyword">int</span> arr[], <span class="keyword">int</span> l, <span class="keyword">int</span> r, <span class="keyword">int</span> p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> less = l - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> more = r;</span><br><span class="line">    <span class="keyword">int</span> i = l;</span><br><span class="line">    <span class="keyword">while</span> (i &lt;= more)&#123;</span><br><span class="line">        <span class="keyword">if</span> (arr[i] &lt; p)&#123;</span><br><span class="line">            <span class="built_in">swap</span>(arr[++less], arr[i++]);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (arr[i] &gt; p)&#123;</span><br><span class="line">            <span class="built_in">swap</span>(arr[more--], arr[i]);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> *part = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>];</span><br><span class="line">    part[<span class="number">0</span>] = less + <span class="number">1</span>;</span><br><span class="line">    part[<span class="number">1</span>] = more;</span><br><span class="line">    <span class="keyword">return</span> part;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">get_median_of_medians_arr</span><span class="params">(<span class="keyword">int</span> arr[], <span class="keyword">int</span> l, <span class="keyword">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count = r - l + <span class="number">1</span>;</span><br><span class="line">    <span class="comment">// cout &lt;&lt; &quot;count: &quot; &lt;&lt; count &lt;&lt; endl;</span></span><br><span class="line">    <span class="keyword">int</span> offset = count % <span class="number">5</span> == <span class="number">0</span> ? <span class="number">0</span> : <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> medians_arr_len = count / <span class="number">5</span> + offset;</span><br><span class="line">    <span class="comment">// cout &lt;&lt; &quot;medians_arr_len: &quot; &lt;&lt; medians_arr_len &lt;&lt; endl;</span></span><br><span class="line">    <span class="keyword">int</span> medians_arr[medians_arr_len];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; medians_arr_len; ++i)&#123;</span><br><span class="line">        <span class="keyword">int</span> part_begin = l + <span class="number">5</span> * i;</span><br><span class="line">        <span class="keyword">int</span> part_end = <span class="built_in">min</span>((part_begin + <span class="number">4</span>), r);</span><br><span class="line">        medians_arr[i] = <span class="built_in">get_median</span>(arr, part_begin, part_end);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    cout &lt;&lt; &quot;medians_arr has: &quot;;</span></span><br><span class="line"><span class="comment">    for (int i = 0; i &lt;  medians_arr_len; ++i)&#123;</span></span><br><span class="line"><span class="comment">        cout &lt;&lt; medians_arr[i] &lt;&lt; &quot; &quot;;</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">    cout &lt;&lt; endl;</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">get_indexth_num_of_arr</span>(medians_arr, <span class="number">0</span>, medians_arr_len - <span class="number">1</span>, medians_arr_len / <span class="number">2</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">get_median</span><span class="params">(<span class="keyword">int</span> arr[], <span class="keyword">int</span> l, <span class="keyword">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 1. insert sort </span></span><br><span class="line">    <span class="built_in">insert_sort</span>(arr, l, r);</span><br><span class="line">    <span class="keyword">int</span> mid = l + (r - l) / <span class="number">2</span>;</span><br><span class="line">    <span class="comment">// 2. return arr[mid]</span></span><br><span class="line">    <span class="keyword">return</span> arr[mid];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert_sort</span><span class="params">(<span class="keyword">int</span> arr[], <span class="keyword">int</span> l, <span class="keyword">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = l + <span class="number">1</span>; i &lt;= r; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &gt; l; --j)</span><br><span class="line">        &#123;</span><br><span class="line">           <span class="keyword">if</span> (arr[j] &lt; arr[j - <span class="number">1</span>])</span><br><span class="line">           &#123;</span><br><span class="line">               <span class="built_in">swap</span>(arr[j], arr[j - <span class="number">1</span>]);</span><br><span class="line">           &#125; </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+      <blockquote>
+        
+        <!-- <strong>permalink</strong><br><a href="https://ryanxw24.github.io/2021/10/06/BFPRT/">https://ryanxw24.github.io/2021/10/06/BFPRT/</a> -->
+      </blockquote>
+    </div>
+    <footer class="mdui-card-actions">
+      
+        <a class="mdui-ripple article_categories-link" href="/categories/algorithm/">algorithm</a>
+      
+      
+        <a class="mdui-ripple article_tags-link" href="/tags/algo-TopK/" rel="tag">algo-TopK</a>
+      
+    </footer>
+    
+  </article>
+  
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+  <script>$("#main article .mdui-card-content img.fancybox").on("click",function(e){$.fancybox.open({src:$(this).attr("src")});});</script>
+
+
+  <nav id="paginator">
+    
+    <div class="spacer"></div>
+    
+      <a rel="next" class="extend next" href="/2021/10/03/Manacher/">
+        <span class="mdui-p-x-3" mdui-tooltip="{content: 'Manacher'}">Next</span>
+        <button aria-label="next" class="mdui-btn mdui-btn-raised mdui-btn-icon mdui-color-theme-accent mdui-ripple"><i class="mdui-icon material-icons">arrow_forward</i></button>
+      </a>
+    
+  </nav>
+
+
+
+
+  <div style="position: fixed !important; right: 16px; top: 30%;">
+    <button class="mdui-fab mdui-fab-mini mdui-ripple" mdui-menu="{target: '#toc'}"><i class="mdui-icon material-icons">toc</i></button>
+    <ul class="mdui-menu" id="toc">
+      <li class="mdui-menu-item" disabled><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#BFPRT"><span class="toc-text">BFPRT</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E6%A6%82%E5%BF%B5"><span class="toc-text">1. 概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="toc-text">2. 实现原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-text">3. 代码实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-Partition%E8%BF%87%E7%A8%8B%E5%9B%9E%E9%A1%BE"><span class="toc-text">3.1 Partition过程回顾</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-BFPRT%E5%AE%9E%E7%8E%B0"><span class="toc-text">3.2 BFPRT实现</span></a></li></ol></li></ol></li>
+    </ul>
+  </div>
+</main>
+  <footer id="footer" class="mdui-m-t-5 mdui-p-y-3 mdui-color-theme">
+  <div class="mdui-p-y-0 mdui-text-center">
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </div>
+  <div class="mdui-p-y-1 mdui-text-center">
+    Copyright &copy; 2022 ryanxw<br>
+    Powered by <a href="https://hexo.io/" target="_blank" class="mdui-text-color-theme-accent">Hexo</a>
+    
+  </div>
+</footer>
+  <button id="gotop" class="mdui-fab mdui-fab-fixed mdui-fab-hide mdui-color-theme-accent mdui-ripple"><i class="mdui-icon material-icons">arrow_upward</i></button>
+  
+  
+<script src="/js/mdui.js"></script>
+<script src="/js/script.js"></script>
+
+  
+<script src="/custom.js"></script>
+
+</body>
+</html>
