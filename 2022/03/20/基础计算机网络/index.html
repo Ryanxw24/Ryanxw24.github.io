@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="renderer" content="webkit">
+
+  
+  <title>基础计算机网络 | ryanxw&#39;s blog</title>
+
+  <link rel="shortcut icon" href="/images/favicon.png">
+  <link rel="alternate" href="/atom.xml" title="ryanxw's blog" type="application/atom+xml">
+  <meta name="description" content="计算机网络和互联网 什么是Internet ? 节点：主机，路由器，交换机 边：通信链路   什么是协议? 通信过程中需要遵守的规则集合，如TCP，IP，FTP，HTTP等。 格式 次序     网络边缘 主机 应用程序 应用通信模式： CS模式 对等模式（peer to peer）   传输方式： TCP 三次握手建立连接 可靠数据传输：确认机制，重传机制 流量控制：防止发送方淹没接收方 拥塞控">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基础计算机网络">
+<meta property="og:url" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/index.html">
+<meta property="og:site_name" content="ryanxw&#39;s blog">
+<meta property="og:description" content="计算机网络和互联网 什么是Internet ? 节点：主机，路由器，交换机 边：通信链路   什么是协议? 通信过程中需要遵守的规则集合，如TCP，IP，FTP，HTTP等。 格式 次序     网络边缘 主机 应用程序 应用通信模式： CS模式 对等模式（peer to peer）   传输方式： TCP 三次握手建立连接 可靠数据传输：确认机制，重传机制 流量控制：防止发送方淹没接收方 拥塞控">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/0.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/1.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/2.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/3.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/4.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/5.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/6.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/7.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/8.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/9.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/10.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/11.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/12.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/13.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/14.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/15.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/16.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/17.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/18.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/19.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/20.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/21.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/22.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/23.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/24.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/25.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/26.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/27.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/28.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/29.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/30.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/31.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/32.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/33.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/34.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/35.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/36.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/37.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/38.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/39.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/40.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/41.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/42.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/43.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/44.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/45.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/46.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/47.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/48.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/49.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/50.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/51.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/52.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/53.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/54.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/55.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/56.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/57.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/58.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/59.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/60.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/61.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/62.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/63.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/64.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/65.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/66.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/67.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/68.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/69.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/70.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/71.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/72.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/73.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/74.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/75.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/76.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/77.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/78.png">
+<meta property="og:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/79.png">
+<meta property="article:published_time" content="2022-03-19T16:37:48.000Z">
+<meta property="article:modified_time" content="2022-03-19T16:41:33.474Z">
+<meta property="article:author" content="ryanxw">
+<meta property="article:tag" content="基础计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/0.png">
+
+  <meta name="keywords" content=",基础计算机网络">
+  <meta name="format-detection" content="telephone=no,email=no">
+  <meta name="theme-color" content="#9C27B0">
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="ryanxw&#39;s blog">
+  <meta name="msapplication-starturl" content="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+  <meta name="msapplication-navbutton-color" content="#9C27B0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="ryanxw&#39;s blog">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="apple-touch-icon" href="/images/favicon.png">
+
+  
+    <link rel="canonical" href="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+  
+
+  
+  
+
+  
+  
+  
+
+  
+<link rel="stylesheet" href="/css/mdui.css">
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/custom.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<!-- <body class="mdui-appbar-with-toolbar mdui-theme-primary-indigo mdui-theme-accent-black"> -->
+<body class="mdui-appbar-with-toolbar mdui-theme-primary-indigo mdui-theme-accent-black">
+  <script>var a=localStorage.getItem("mdui-theme-layout-dark");if(a){document.getElementsByTagName("body")[0].className+=" mdui-theme-layout-dark"};</script>
+  <script>if(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches){document.getElementsByTagName("body")[0].className+=" mdui-theme-layout-dark"};</script>
+  <script>var a=localStorage.getItem("mdui-drawer-close");if(!a){document.getElementsByTagName("body")[0].className+=" mdui-drawer-body-left"};</script>
+  <header id="header" class="mdui-appbar mdui-appbar-fixed mdui-appbar-scroll-hide mdui-appbar-inset">
+  <div class="mdui-toolbar mdui-color-theme">
+    <a href="javascript:;" class="mdui-btn mdui-btn-icon" mdui-drawer="{target: '#sidebar', swipe: true}"><i class="mdui-icon material-icons">menu</i></a>
+    <a href="/" class="mdui-typo-headline">ryanxw&#39;s blog</a>
+    <div class="mdui-toolbar-spacer"></div>
+    <a href="javascript:;" class="mdui-btn mdui-btn-icon" mdui-dialog="{target: '#search'}" mdui-tooltip="{content: 'Search'}"><i class="mdui-icon material-icons">search</i></a>
+    <a href="/atom.xml" class="mdui-btn mdui-btn-icon" mdui-tooltip="{content: 'RSS'}"><i class="mdui-icon material-icons">rss_feed</i></a>
+  </div>
+</header>
+<div class="mdui-dialog" id="search">
+  
+    <div class="search-form">
+      <input type="search" class="search-form-input" placeholder="请输入关键字">
+    </div>
+    <div class="search-result" data-resource="/search.xml"></div>
+  
+</div>
+  <aside id="sidebar" class="mdui-drawer mdui-drawer-full-height">
+  <script>var a=localStorage.getItem("mdui-drawer-close");if(a){document.getElementById("sidebar").className+=" mdui-drawer-close"};</script>
+  <div class="mdui-grid-tile">
+    <img src="/images/banner.png" style="height: 160px;">
+    <img src="/images/nk.png" class="avatar-animation" style="position: absolute; top: 10%; left: 24px; width: 64px; height: 64px; border: 2px solid #fff; border-radius: 50%;">
+    <div class="mdui-grid-tile-actions">
+      <div class="mdui-grid-tile-text">
+        <div class="mdui-grid-tile-title">ryanxw</div>
+        <div class="mdui-grid-tile-subtitle"><i class="mdui-icon material-icons">art_track</i>流水不争先，争滔滔不绝</div>
+      </div>
+      
+    </div>
+  </div>
+
+  <div class="mdui-list" mdui-collapse="{accordion: true}">
+    <a href="/" class="mdui-list-item mdui-ripple">
+      <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">home</i>
+      <div class="mdui-list-item-content">Home</div>
+    </a>
+    <div class="mdui-collapse-item">
+      <script>var a=localStorage.getItem("mdui-collapse-item-0");if(a){document.getElementsByClassName("mdui-collapse-item")[0].className+=" mdui-collapse-item-open"};</script>
+      <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+        <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-deep-orange">archive</i>
+        <div class="mdui-list-item-content">Archive</div>
+        <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+      </div>
+      <div class="mdui-collapse-item-body mdui-list mdui-list-dense">
+        
+        <a class="mdui-ripple sidebar_archives-link" href="/archives/2022/03/">March 2022<span class="mdui-ripple sidebar_archives-count">1</span></a><a class="mdui-ripple sidebar_archives-link" href="/archives/2021/10/">October 2021<span class="mdui-ripple sidebar_archives-count">2</span></a><a class="mdui-ripple sidebar_archives-link" href="/archives/2021/09/">September 2021<span class="mdui-ripple sidebar_archives-count">7</span></a>
+        
+      </div>
+    </div>
+    <div class="mdui-collapse-item">
+      <script>var a=localStorage.getItem("mdui-collapse-item-1");if(a){document.getElementsByClassName("mdui-collapse-item")[1].className+=" mdui-collapse-item-open"};</script>
+      <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+        <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-green">class</i>
+        <div class="mdui-list-item-content">Category</div>
+        <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+      </div>
+      <div class="mdui-collapse-item-body mdui-list mdui-list-dense">
+        
+        <a class="mdui-ripple sidebar_archives-link" href="/categories/CPP/">CPP<span class="mdui-ripple sidebar_archives-count">1</span></a><a class="mdui-ripple sidebar_archives-link" href="/categories/algorithm/">algorithm<span class="mdui-ripple sidebar_archives-count">7</span></a><a class="mdui-ripple sidebar_archives-link" href="/categories/hexo/">hexo<span class="mdui-ripple sidebar_archives-count">1</span></a><a class="mdui-ripple sidebar_archives-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络<span class="mdui-ripple sidebar_archives-count">1</span></a>
+        
+      </div>
+    </div>
+    <div class="mdui-collapse-item">
+      <script>var a=localStorage.getItem("mdui-collapse-item-2");if(a){document.getElementsByClassName("mdui-collapse-item")[2].className+=" mdui-collapse-item-open"};</script>
+      <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+        <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-brown">bookmark</i>
+        <div class="mdui-list-item-content">Tag</div>
+        <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+      </div>
+      <div class="mdui-collapse-item-body mdui-list mdui-list-dense">
+        
+        <a class="mdui-ripple sidebar_archives-link" href="/tags/GDB/" rel="tag">GDB<span class="mdui-ripple sidebar_archives-count">1</span></a><a class="mdui-ripple sidebar_archives-link" href="/tags/algo-BinarySearch/" rel="tag">algo-BinarySearch<span class="mdui-ripple sidebar_archives-count">3</span></a><a class="mdui-ripple sidebar_archives-link" href="/tags/algo-String/" rel="tag">algo-String<span class="mdui-ripple sidebar_archives-count">2</span></a><a class="mdui-ripple sidebar_archives-link" href="/tags/algo-TopK/" rel="tag">algo-TopK<span class="mdui-ripple sidebar_archives-count">1</span></a><a class="mdui-ripple sidebar_archives-link" href="/tags/algo-sort/" rel="tag">algo-sort<span class="mdui-ripple sidebar_archives-count">1</span></a><a class="mdui-ripple sidebar_archives-link" href="/tags/hello-world/" rel="tag">hello world<span class="mdui-ripple sidebar_archives-count">1</span></a><a class="mdui-ripple sidebar_archives-link" href="/tags/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">基础计算机网络<span class="mdui-ripple sidebar_archives-count">1</span></a>
+        
+      </div>
+    </div>
+    <a href="/about" class="mdui-list-item mdui-ripple">
+      <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-purple">person</i>
+      <div class="mdui-list-item-content">About</div>
+    </a>
+  </div>
+
+  <div class="mdui-divider"></div>
+
+  <div class="mdui-list" mdui-collapse="{accordion: true}">
+    
+      <a href="/timeline" class="mdui-list-item mdui-ripple">timeline</a>
+    
+      <a href="/books" class="mdui-list-item mdui-ripple">books</a>
+    
+    <div class="mdui-collapse-item">
+      <script>var a=localStorage.getItem("mdui-collapse-item-3");if(a){document.getElementsByClassName("mdui-collapse-item")[3].className+=" mdui-collapse-item-open"};</script>
+      <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+        <div class="mdui-list-item-content">Links</div>
+        <i class="mdui-list-item-icon mdui-icon material-icons">link</i>
+      </div>
+      <div class="mdui-collapse-item-body mdui-list mdui-list-dense">
+        
+        
+          <a href="javascript:;" class="mdui-list-item mdui-p-l-2 mdui-text-color-theme mdui-ripple" style="justify-content: center;">No Links</a>
+        
+      </div>
+    </div>
+  </div>
+</aside>
+  <main id="main" class="mdui-m-t-5 fadeIn animated">
+  
+<link rel="stylesheet" href="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  <style>#main article .mdui-card-content .center-block{display:block!important;margin-right:auto!important;margin-left:auto!important}</style>
+  <article class="mdui-card mdui-m-b-5">
+    <header class="mdui-card-media">
+      <!-- <img src="/images/random/material-10.png" style="max-height: 240px;"> -->
+      <img src="/images/random/2.jpg" style="max-height: 500px;">
+      <div class="mdui-card-media-covered">
+        <div class="mdui-card-primary">
+          <div class="mdui-card-primary-title">基础计算机网络</div>
+          <div class="mdui-card-primary-subtitle"><i class="iconfont">&#xe697;</i> 2022-03-20 / <i class="iconfont">&#xe601;</i> ryanxw</div>
+        </div>
+      </div>
+      <div class="mdui-card-menu">
+        
+          <button class="mdui-btn mdui-btn-icon mdui-text-color-white" mdui-menu="{target: '#qrcode', align: 'right'}"><i class="mdui-icon material-icons">devices</i></button>
+          <ul class="mdui-menu" id="qrcode">
+            
+              <li class="mdui-menu-item"><a class="mdui-text-center mdui-ripple">share to phone</a></li>
+            
+            <!-- <li class="mdui-menu-item" disabled>
+              
+                <img src="https://chart.googleapis.com/chart?cht=qr&chs=246x246&chl=https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/&chld=M|2">
+              
+            </li> -->
+          </ul>
+        
+        
+          <button class="mdui-btn mdui-btn-icon mdui-text-color-white" mdui-menu="{target: '#share_menu', align: 'right'}"><i class="mdui-icon material-icons">share</i></button>
+          <!-- <ul class="mdui-menu" id="share_menu">
+            <li class="mdui-menu-item">
+              <a href="http://service.weibo.com/share/share.php?appkey=&title=基础计算机网络&url=https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/&pic=https://ryanxw24.github.io/images/favicon.png&searchPic=false&style=simple" target="_blank" class="mdui-ripple">Share to Weibo</a>
+            </li>
+            <li class="mdui-menu-item">
+              <a href="http://connect.qq.com/widget/shareqq/index.html?site=ryanxw&#39;s blog&title=基础计算机网络&pics=https://ryanxw24.github.io/images/favicon.png&url=https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" target="_blank" class="mdui-ripple">Share to QQ</a>
+            </li>
+          </ul> -->
+        
+      </div>
+    </header>
+    <div class="mdui-card-content mdui-typo">
+      <h1 id="计算机网络和互联网"><a href="#计算机网络和互联网" class="headerlink" title="计算机网络和互联网"></a>计算机网络和互联网</h1><ul>
+<li>什么是Internet ?<ul>
+<li>节点：主机，路由器，交换机</li>
+<li>边：通信链路</li>
+</ul>
+</li>
+<li>什么是协议?<ul>
+<li>通信过程中需要遵守的规则集合，如TCP，IP，FTP，HTTP等。<ul>
+<li>格式</li>
+<li>次序</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>网络边缘<ul>
+<li>主机</li>
+<li>应用程序<ul>
+<li>应用通信模式：<ul>
+<li>CS模式</li>
+<li>对等模式（peer to peer）</li>
+</ul>
+</li>
+<li>传输方式：<ul>
+<li>TCP<ul>
+<li>三次握手建立连接</li>
+<li>可靠数据传输：确认机制，重传机制</li>
+<li>流量控制：防止发送方淹没接收方</li>
+<li>拥塞控制：网络速率降低时，发送方降低发送速率</li>
+<li>应用：HTTP，FTP</li>
+</ul>
+</li>
+<li>UDP<ul>
+<li>无连接</li>
+<li>不可靠</li>
+<li>无流量控制</li>
+<li>无拥塞控制</li>
+<li>应用：流媒体，远程会议，DNS</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>接入网、物理媒体<ul>
+<li>接入网<ul>
+<li>有线 or 无线通信链路</li>
+<li>网络带宽bps（bits per second）</li>
+<li>接入网的方式<ul>
+<li>原来方式：调制解调器<strong>modem（猫），</strong>借用电话线，完成将电路信号转为网络信号。<ul>
+<li>缺点：带宽很小，上网电话不能同时使用</li>
+</ul>
+</li>
+<li>改进：原有的模式<ul>
+<li>0~4kHz用于电话</li>
+<li>4kHz以上仍然使用调制和反调制的模式，非对称分割（一段用于上传，一段用于下载）</li>
+</ul>
+</li>
+<li>现有方式：铺专线，光纤入户</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>物理媒体<ul>
+<li>导引型媒体（看得到摸得着）<ul>
+<li>同轴电缆</li>
+<li>光纤（安全）</li>
+<li>双绞线</li>
+</ul>
+</li>
+<li>非导引型媒体（开放的空间无形的）<ul>
+<li>电磁波</li>
+<li>光信号</li>
+<li>卫星</li>
+<li>wide-area<ul>
+<li>3G，4G，5G</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>网络核心：互相连着的路由器，起着数据交换的作用<ul>
+<li>分组交换（互联网大多使用此）<ul>
+<li>存储转发<ul>
+<li>不存储转发就变成网络独享了，不能共享</li>
+</ul>
+</li>
+<li>虚电路网络（TCP）</li>
+<li>数据表网络（UDP）</li>
+</ul>
+</li>
+<li>线路交换（电路交换，用于电话网）<ul>
+<li>时分</li>
+<li>频分</li>
+<li>波分</li>
+<li>码分（CDM）<ul>
+<li>采用接入的方式称为CDMA</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Internet/ISP 结构<ul>
+<li>端接入ISPs（Internet Service Providers）连接到互联网</li>
+<li>ISPs之间必须互联<ul>
+<li>每两个连接不可取， 复杂度：$O（n^2）$</li>
+<li>分治，区域性互相连接即可  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/0.png" alt="Untitled">  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/1.png" alt="Untitled"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>性能：丢包、延时、吞吐量<ul>
+<li>分组丢失和延时的发生原因：<ul>
+<li>分组到达链路的速率超过了链路输出能力</li>
+<li>分组排队，传输时延</li>
+</ul>
+</li>
+<li>丢包<ul>
+<li>取决于路由器的缓冲队列的大小。不可能无限大，尽管不丢包，但是体验感差</li>
+</ul>
+</li>
+<li>延时<ul>
+<li>节点处理时延：检测bit差错，分析首部决定发向哪里</li>
+<li>排队时延：路由器的拥塞程度</li>
+<li>传输时延：链路 带宽R，分组长度L，时延值= $L / R$，称为存储转发时延</li>
+<li>传播时延：耗费在链路上的传播时延，链路长度d，传播速度s，时延值=$d/s$</li>
+</ul>
+</li>
+<li>吞吐量<ul>
+<li>源端和目标端之间的传输数据量（数据量/单位时间）<ul>
+<li>瞬间吞吐量：某个时间点</li>
+<li>平均吞吐量：某个时间段</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>协议层次、服务模型<ul>
+<li>服务类型<ul>
+<li>面向连接TCP</li>
+<li>无连接 UDP</li>
+</ul>
+</li>
+<li>协议层次<ul>
+<li>PDU：协议数据单元<ul>
+<li>头部 + （n+1）层的SDU（Service Data Unit）</li>
+<li>当SDU太大时需要分片，加上头部变成多个PDU；SDU太小时，多个组合起来加一个头部变成PDU；</li>
+</ul>
+</li>
+<li>网络层次<ul>
+<li>应用层：报文message</li>
+<li>传输层：报文段：TCP段，UDP数据报</li>
+<li>网络层：分组Packet，无连接时为数据包datagram，在链路层点到点之间的服务之上提供了端到端的服务</li>
+<li>链路层：帧frame</li>
+<li>物理层：位bit</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h1><ul>
+<li>应用层协议原理</li>
+<li>Web和HTTP</li>
+<li>FTP</li>
+<li>Email（SMTP，POP3，IMAP）</li>
+<li>DNS</li>
+<li>P2P应用</li>
+<li>CDN（内容分发网络 Content Delivery Network）<ul>
+<li>视频流量占用大部分的带宽，如何并发的为那么多用户提供服务？挑战点：<ul>
+<li>规模性：单服务器无法服务大量用户</li>
+<li>异构性：不同用户有不同的能力，比如有线接入和无线接入，其带宽容量不同</li>
+</ul>
+</li>
+<li>存储视频的流化方式（DASH动态自适应协议：Dynamic Adaptive Streaming over HTTP）：上线视频时，预先部署，设置成不同清晰度的版本，分成每一块，设置URL放置到告示文件（manifest file）中供client去获取，也可以保证在观看中动态的切换清晰度，流化服务。<ul>
+<li>client首先要获取manifest file，然后解析</li>
+<li>解析完成后根据自己的需求，网络的带宽，缓存能力等实时情况动态调整去各个服务器获取每个块的流化信息</li>
+<li>各个块的流化信息是预先部署到服务器上的。</li>
+</ul>
+</li>
+<li>单个服务器的问题有哪些？<ul>
+<li>client访问到svr的路由器跳数太多</li>
+<li>重复的流量太多，浪费网络资源</li>
+<li>单点故障</li>
+<li>周边网络拥塞</li>
+</ul>
+</li>
+<li>解决方案：CDN<ul>
+<li>分布式的部署到各个地点Cache Server</li>
+<li>预先将内容存储到这些Cache Server</li>
+<li>用户访问Svr时，根据域名解析重定向到距离用户最近的Cache Server</li>
+</ul>
+</li>
+<li>CDN部署策略：<ul>
+<li>local ISP<ul>
+<li>优点：距离用户最近，服务质量高</li>
+<li>缺点：节点太多，维护费用高</li>
+</ul>
+</li>
+<li>bring home<ul>
+<li>优点：节点少，只选择关键的位置，也距离用户不算远，服务质量不错</li>
+<li>缺点：client访问经过路由器跳数略多</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="TCP套接字编程"><a href="#TCP套接字编程" class="headerlink" title="TCP套接字编程"></a>TCP套接字编程</h2><ul>
+<li>数据结构 <strong>hostent</strong>  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">hostent</span></span></span><br><span class="line"><span class="class">&#123;</span> </span><br><span class="line">	<span class="keyword">char</span> 	*h_name; <span class="comment">// 主机域名</span></span><br><span class="line">	<span class="keyword">char</span> 	**h_aliases; <span class="comment">// 主机域名别名</span></span><br><span class="line">	<span class="keyword">int</span>	 	h_addrtype; <span class="comment">//  主机ip地址类型，ipv4(AF_INET) ipv6(AF_INET6)</span></span><br><span class="line">	<span class="keyword">int</span> 	h_length; 		<span class="comment">// ip地址的长度</span></span><br><span class="line">	<span class="keyword">char</span> 	**h_addr_list; <span class="comment">// 主机的ip地址 (以网络字节序存储)</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 该函数通过域名获取IP地址，Client端调用该函数获取Server端的IP</span></span><br><span class="line"><span class="comment">* 传入参数：域名 or 主机名</span></span><br><span class="line"><span class="comment">* 返回值：</span></span><br><span class="line"><span class="comment">	成功返回：struct hostent结构体</span></span><br><span class="line"><span class="comment">	失败返回: NULL</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">struct hostent *<span class="title">gethostbyname</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *name)</span></span>; </span><br></pre></td></tr></table></figure>
+</li>
+<li>数据结构 <strong>sockaddr_in</strong>  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> **<span class="title">sockaddr_in</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">		<span class="keyword">short</span> sin_family; <span class="comment">// 地址族</span></span><br><span class="line">		<span class="keyword">unsigned</span> <span class="keyword">short</span> sin_port; <span class="comment">// port</span></span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">in_addr</span> <span class="title">sin_addr</span>;</span> <span class="comment">// IP地址</span></span><br><span class="line">		<span class="keyword">char</span> sin_zero[<span class="number">8</span>]; <span class="comment">// 对齐</span></span><br><span class="line">&#125;;** </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">in_addr</span> &#123;</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> s_addr;  <span class="comment">// load with inet_aton()</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li>数据结构 <strong>sockaddr</strong>  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr</span>&#123;</span></span><br><span class="line">    <span class="keyword">sa_family_t</span>  sin_family;   <span class="comment">//地址族（Address Family），也就是地址类型</span></span><br><span class="line">    <span class="keyword">char</span>         sa_data[<span class="number">14</span>];  <span class="comment">//IP地址和端口号</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><strong>sockaddr</strong> 和 <strong>sockaddr_in</strong> 的区别  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/2.png" alt="Untitled">  sockaddr 和 sockaddr_in 的长度相同，都是16字节，只是将IP地址和端口号合并到一起，用一个成员 sa_data 表示。要想给 sa_data 赋值，必须同时指明IP地址和端口号，例如”127.0.0.1:80“，遗憾的是，没有相关函数将这个字符串转换成需要的形式，也就很难给 sockaddr 类型的变量赋值，所以使用 sockaddr_in 来代替。这两个结构体的长度相同，强制转换类型时不会丢失字节，也没有多余的字节。</li>
+<li>Server端  <a target="_blank" rel="noopener" href="https://man7.org/linux/man-pages/dir_section_3.html">https://man7.org/linux/man-pages/dir_section_3.html</a> (man手册)  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">1. domain：AF_INET、AF_INET6、AF_LOCAL</span></span><br><span class="line"><span class="comment">2. type：SOCK_STEAM、SOCK_DGRAM</span></span><br><span class="line"><span class="comment">3. protocol: 默认0，会根据type自动选择</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">int</span> welcome_fd = <span class="built_in">socket</span>(AF_INET, SOCK_STREAM, <span class="number">0</span>); <span class="comment">// 用于监听client的请求</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">sin</span>;</span></span><br><span class="line">sin.sin_family = AF_INET;</span><br><span class="line">sin.sin_port = <span class="built_in">htons</span>(<span class="number">24</span>); </span><br><span class="line">sin.sin_addr.s_addr = <span class="built_in">htonl</span>(INADDR_ANY) <span class="comment">// INADDR_ANY表示本机的任意一个IP</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> ret = <span class="built_in">bind</span>(welcome_fd, (struct sockaddr*)&amp;sin, <span class="built_in"><span class="keyword">sizeof</span></span>(sin))</span><br><span class="line"><span class="keyword">if</span> (ret != <span class="number">0</span>) &#123; <span class="comment">// 0 成功 -1 失败</span></span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">1. svr端的socket fd</span></span><br><span class="line"><span class="comment">2. 限制套接字监听队列中未完成的连接数</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">int</span> ret = <span class="built_in">listen</span>(welcome_fd, <span class="number">5</span>); </span><br><span class="line"><span class="keyword">if</span> (ret != <span class="number">0</span>) &#123; <span class="comment">// 0 成功 -1 失败</span></span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">client_addr</span>;</span></span><br><span class="line"><span class="built_in">memset</span>((<span class="keyword">char</span>*)&amp;client_addr, <span class="number">0</span>, <span class="built_in"><span class="keyword">sizeof</span></span>(client_addr));</span><br><span class="line"><span class="keyword">int</span> client_addr_len = <span class="built_in"><span class="keyword">sizeof</span></span>(client_addr);</span><br><span class="line"><span class="keyword">char</span> recv_buff[<span class="number">128</span>];</span><br><span class="line"><span class="keyword">while</span>(<span class="number">1</span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 1. 接收一个新的client连接</span></span><br><span class="line">	<span class="keyword">int</span> connect_client_fd = <span class="built_in">accept</span>(welcome_fd, (struct sockaddr*)&amp;client_addr, &amp;client_addr_len);</span><br><span class="line">	<span class="built_in">recv</span>(connect_client_fd, recv_buff, <span class="built_in"><span class="keyword">sizeof</span></span>(recv_buff), <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 2. 处理请求</span></span><br><span class="line">	<span class="comment">// 封装信息，假设char* send_buf[]</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// 3. 发送给client</span></span><br><span class="line">	<span class="comment">// https://man7.org/linux/man-pages/man3/send.3p.html</span></span><br><span class="line">	<span class="built_in">send</span>(connect_client_fd, send_buf, <span class="built_in"><span class="keyword">sizeof</span></span>(send_buf), <span class="number">0</span>);</span><br><span class="line">  <span class="built_in">close</span>(connect_client_fd);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/3.png" alt="本地字节序转化为网络字节序的函数，位于头文件&lt;arpa/inet.h&gt;中  [https://linux.die.net/man/3/htonl](https://linux.die.net/man/3/htonl)">  本地字节序转化为网络字节序的函数，位于头文件&lt;arpa/inet.h&gt;中  <a target="_blank" rel="noopener" href="https://linux.die.net/man/3/htonl">https://linux.die.net/man/3/htonl</a></li>
+<li>Client端  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">client_fd = <span class="built_in">socket</span>(AF_INET, SOCK_STEAM, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">sin</span>;</span></span><br><span class="line">sin.sin_family = AF_INET;</span><br><span class="line">sin.sin_port = <span class="built_in">htons</span>(<span class="number">24</span>); </span><br><span class="line">sin.sin_addr.s_addr = <span class="built_in">htonl</span>(INADDR_ANY) <span class="comment">// INADDR_ANY表示本机的任意一个IP</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">connect</span>(client_fd, (struct sockaddr*)&amp;sin, <span class="built_in"><span class="keyword">sizeof</span></span>(sin));</span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> send_buf[<span class="number">128</span>];</span><br><span class="line"><span class="keyword">char</span> recv_buf[<span class="number">128</span>];</span><br><span class="line"><span class="built_in">send</span>(client_fd, send_buf, <span class="built_in"><span class="keyword">sizeof</span></span>(send_buf), <span class="number">0</span>);</span><br><span class="line"><span class="built_in">recv</span>(client_fd, recv_buff, <span class="built_in"><span class="keyword">sizeof</span></span>(recv_buff), <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li>流程图  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/4.png" alt="Untitled"></li>
+<li>TCP字节流的服务，不提供边界划分的功能，则需要应用层自己去设定协议解包</li>
+</ul>
+<h2 id="UDP套接字编程"><a href="#UDP套接字编程" class="headerlink" title="UDP套接字编程"></a>UDP套接字编程</h2><ul>
+<li>无连接，不用握手，发送端在每一个报文中明确指定目标的IP和Port</li>
+<li>服务器必须从收到的分组中提取出发送端的IP地址和Port</li>
+<li>传输的数据可能乱序，可能丢失</li>
+<li>Server端  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> svr_fd = <span class="built_in">socket</span>(AF_INET, SOCK_DGRAM, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">sin</span>;</span></span><br><span class="line">sin.sin_family = AF_INET;</span><br><span class="line">sin.sin_port = <span class="built_in">htons</span>(<span class="number">24</span>); </span><br><span class="line">sin.sin_addr.s_addr = <span class="built_in">htonl</span>(INADDR_ANY) <span class="comment">// INADDR_ANY表示本机的任意一个IP</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">bind</span>(svr_fd, (struct sockaddr*)&amp;sin, <span class="built_in"><span class="keyword">sizeof</span></span>(sin));</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">client_addr</span>;</span></span><br><span class="line"><span class="keyword">char</span> recv_buf[<span class="number">128</span>];</span><br><span class="line"><span class="keyword">char</span> send_buf[<span class="number">128</span>];</span><br><span class="line"><span class="built_in">recvfrom</span>(svr_fd, recv_buf, <span class="built_in"><span class="keyword">sizeof</span></span>(recv_buf), <span class="number">0</span>, (struct sockaddr*)&amp;client_addr, &amp;<span class="built_in"><span class="keyword">sizeof</span></span>(client_addr));</span><br><span class="line"><span class="built_in">sendto</span>(svr_fd, send_buf, <span class="built_in"><span class="keyword">sizeof</span></span>(send_buf), <span class="number">0</span>, (struct sockaddr*)&amp;client_addr, <span class="built_in"><span class="keyword">sizeof</span></span>(client_addr));</span><br><span class="line"><span class="built_in">close</span>();</span><br></pre></td></tr></table></figure>
+</li>
+<li>Client端  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> client_fd = <span class="built_in">socket</span>(AF_INET, SOCK_DGRAM, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">svr_addr</span>;</span></span><br><span class="line">svr_addr.sin_family = AF_INET;</span><br><span class="line">svr_addr.sin_port = <span class="built_in">htons</span>(<span class="number">24</span>); </span><br><span class="line">svr_addr.sin_addr.s_addr = <span class="built_in">htonl</span>(INADDR_ANY) <span class="comment">// INADDR_ANY表示本机的任意一个IP</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> send_buf[<span class="number">128</span>];</span><br><span class="line"><span class="keyword">char</span> recv_buf[<span class="number">128</span>];</span><br><span class="line"><span class="built_in">sendto</span>(client_fd, send_buf, <span class="built_in"><span class="keyword">sizeof</span></span>(send_buf), <span class="number">0</span>, (struct sockaddr*)&amp;svr_addr,&amp;<span class="built_in"><span class="keyword">sizeof</span></span>(svr_addr));</span><br><span class="line"><span class="built_in">recvfrom</span>(client_fd, recv_buf, <span class="built_in"><span class="keyword">sizeof</span></span>(recv_buf), <span class="number">0</span>, (struct sockaddr*)&amp;svr_addr, &amp;<span class="built_in"><span class="keyword">sizeof</span></span>(svr_addr));</span><br><span class="line"><span class="built_in">close</span>();</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h1><p><a target="_blank" rel="noopener" href="https://www2.tkn.tu-berlin.de/teaching/rn/animations/">Transmission versus Propagation Delay</a></p>
+<h2 id="理解传输层的工作原理"><a href="#理解传输层的工作原理" class="headerlink" title="理解传输层的工作原理"></a>理解传输层的工作原理</h2><h3 id="多路复用-解复用"><a href="#多路复用-解复用" class="headerlink" title="多路复用 / 解复用"></a>多路复用 / 解复用</h3><ul>
+<li>发送方：  从多个套接字<strong>Socket</strong>接收来自多个进程的报文，根据套接字对应的IP地址和端口号等信息对报文段用头部加以封装(该头部信息用于以后的解复用)</li>
+<li>接收方：  根据报文段的头部信息中的IP地址和端口号将接收到的报文段发给正确的套接字(和对应的应用进程)</li>
+</ul>
+<h3 id="可靠数据传输（RDT）原理"><a href="#可靠数据传输（RDT）原理" class="headerlink" title="可靠数据传输（RDT）原理"></a>可靠数据传输（RDT）原理</h3><ul>
+<li>rdt 1.0</li>
+<li>rdt 2.0<ul>
+<li>ACK，继续发新的</li>
+<li>NAK，发送旧的，直到收到ACK</li>
+<li>问题：如果ACK，NAK丢失，则发送方则无法判断，不知所措</li>
+</ul>
+</li>
+<li>rdt 2.1<ul>
+<li>解决rdt 2.0的问题：增加序号，如果ACK or NAK出错，发送方仍发送旧的，如果接收方已经存在该序号，则丢掉，同时发送ACK；如果不存在则接收发送ACK</li>
+<li>一次只发一个分组，等待确认，再发送下一个，称为停止等待协议</li>
+</ul>
+</li>
+<li>rdt 2.2<ul>
+<li>无NAK的协议，但是要对ACK编号，为流水线协议做好准备  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/5.png" alt="Untitled">  NAK1就等于前一个分组的ACK0，所以用重复的ACK0就可以替代NAK1的作用。</li>
+<li>如果接收方发送的ACK出错，到达发送方后，发现有误，则重发上一个分组，接收方发现已经接收，丢掉，继续发ACK即可</li>
+</ul>
+</li>
+<li>rdt3.0<ul>
+<li>新的假设：具有比特差错和分组丢失的下层信道，导致丢失分组（数据<br>或ACK），发送P1时丢失，此时发送方等待ACK1，接收方等待P1，则形成死锁。  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/6.png" alt="Untitled"></li>
+<li>解决方法：增加超时定时器，一旦到时则超时重传</li>
+</ul>
+</li>
+<li>停止等待协议的问题：在信道容量比较大（以北京到深圳的高速公路为例子，中间可以容纳很多车，但两个收费站之间每次只通过一辆车，效率很低）的时候利用率太低，所以<strong>引出了流水线协议</strong>  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/7.png" alt="Untitled">  RTT = 30ms  分组长度1kB = 8k bits  链路带宽：1Gbps  利用率为$<code>Usender</code>$，问题在于协议发送的数据太少，增大未经确认的分组个数来提高信道的利用率。</li>
+</ul>
+<h3 id="滑动窗口协议（slide-window）"><a href="#滑动窗口协议（slide-window）" class="headerlink" title="滑动窗口协议（slide window）"></a>滑动窗口协议（slide window）</h3><ul>
+<li>发送方窗口大小 = 1，接收方窗口 =1 的时候就是：停止等待协议</li>
+<li>发送方窗口大小 &gt; 1 的时候就是：流水线协议<ul>
+<li>接收方窗口 = 1 的时候就是 GBN 协议</li>
+<li>接收方窗口 &gt; 1 的时候就是 SR 协议</li>
+</ul>
+</li>
+</ul>
+<h3 id="流水线协议（pipelined）"><a href="#流水线协议（pipelined）" class="headerlink" title="流水线协议（pipelined）"></a><strong>流水线协议（pipelined）</strong></h3><p>TCP采用的流水线协议一般是（GBN + SR）混用</p>
+<p><a target="_blank" rel="noopener" href="https://www2.tkn.tu-berlin.de/teaching/rn/animations/gbn_sr/">Selective Repeat / Go Back N</a></p>
+<ul>
+<li><strong>GBN协议</strong>：如果12345发送，其中2号丢失，则需要2345重新发送</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://media.pearsoncmg.com/aw/ecs_kurose_compnetwork_7/cw/content/interactiveanimations/go-back-n-protocol/index.html">Go-Back Protocol</a></p>
+<ul>
+<li><strong>SR协议</strong>：如果12345发送，其中2号丢失，则只需重新发送2即可</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://media.pearsoncmg.com/aw/ecs_kurose_compnetwork_7/cw/content/interactiveanimations/selective-repeat-protocol/index.html">Selective Repeat Protocol</a></p>
+<h3 id="TCP超时定时器RTO的合理设置："><a href="#TCP超时定时器RTO的合理设置：" class="headerlink" title="TCP超时定时器RTO的合理设置："></a><strong>TCP超时定时器RTO的合理设置</strong>：</h3><ul>
+<li>比RTT要长，RTT是变化的</li>
+<li>太短会导致超时太早到达，造成不必要的重传</li>
+<li>太长会导致报文丢失反应太慢</li>
+<li>一般选择自适应的计算获取：超时时间 = RTT + 4 * 标准差RTT<ul>
+<li>SampleRTT：测量从报文段发出到收到确认的时间</li>
+<li>采样，计算SampleRTT的平均值EstimatedRTT，α一般取值0.125。  *<em>EstimatedRTT = (1- α)*<em>EstimatedRTT +</em> α*SampleRTT</em>*  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/8.png" alt="Untitled"></li>
+<li>计算 SampleRTT 距离 EstimatedRTT 的偏差程度的值X =【x1，x2，x3，…..，xn】，再求取X的平均值，相当于标准差。  <strong>DevRTT = (1-β) * <em>DevRTT +</em> β * | SampleRTT-EstimatedRTT |</strong> （绝对值）</li>
+<li>RTO = EstimatedRTT  + 4 * DevRTT</li>
+</ul>
+</li>
+</ul>
+<h3 id="产生ACK的场景"><a href="#产生ACK的场景" class="headerlink" title="产生ACK的场景"></a>产生ACK的场景</h3><p><img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/9.png" alt="Untitled"></p>
+<h3 id="重传分组的场景："><a href="#重传分组的场景：" class="headerlink" title="重传分组的场景："></a>重传分组的场景：</h3><ul>
+<li>发送方超时定时器到时，则开始重传，该行为称为<strong>超时重传</strong>。</li>
+<li>发送方收到连续的3个冗余ACK，此时还没有到达超时定时器的时间，但仍会触法重传，该行为称为<strong>快速重传。</strong>  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/10.png" alt="Untitled"></li>
+</ul>
+<h3 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h3><p><a target="_blank" rel="noopener" href="https://www2.tkn.tu-berlin.de/teaching/rn/animations/flow/">Flow Control</a></p>
+<p><a target="_blank" rel="noopener" href="https://media.pearsoncmg.com/aw/ecs_kurose_compnetwork_7/cw/content/interactiveanimations/flow-control/index.html">Flow Control</a></p>
+<p>接收方控制发送方，不让发送方发送的太多、太快以至于让接收方的缓冲区溢出。通过捎带技术将缓冲区窗口大小携带给发送方，让发送方按照这个窗口大小发送字节流。</p>
+<h3 id="TCP连接管理（三次握手-四次挥手）"><a href="#TCP连接管理（三次握手-四次挥手）" class="headerlink" title="TCP连接管理（三次握手 + 四次挥手）"></a>TCP连接管理（三次握手 + 四次挥手）</h3><ul>
+<li><strong>2次握手建立连接的问题：</strong><ul>
+<li>变化的延迟，连接请求的段没有丢，但是超时，超时定时器后继续发送建立连接，会导致服务器维护很多无效的半连接，浪费服务器的资源  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/11.png" alt="Untitled"></li>
+<li><strong>由于丢失造成的重传，导致数据重发给服务器</strong>  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/12.png" alt="Untitled"></li>
+</ul>
+</li>
+<li><strong>3次握手建立连接（解决上述两个问题）</strong>  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/13.png" alt="Untitled"><ul>
+<li><strong>虚假的半连接被客户端拆除掉</strong>  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/14.png" alt="Untitled"></li>
+<li><strong>老的数据不会被server端接收，直接丢掉</strong>  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/15.png" alt="Untitled"></li>
+</ul>
+</li>
+<li><strong>四次挥手断开TCP连接</strong><ul>
+<li>看作两个半连接的拆除</li>
+<li>两军问题</li>
+<li>客户端，服务器分别关闭它自己这一侧的连接，发送FIN bit = 1的TCP段，一旦接收到FIN，用ACK回应，接到FIN段，ACK可以和它自己发出的FIN段一起发送，可以处理同时的FIN交换  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/16.png" alt="Untitled"></li>
+<li>注意上面图中的TIMED_WAIT状态，一般是2个MSL的时间，主要原因如下：<ul>
+<li>原因1：要确保服务器是否已经收到了我们的 ACK 报文，如果没有收到的话，服务器会重新发 FIN 报文给客户端，客户端再次收到 ACK 报文之后，就知道之前的 ACK 报文丢失了，然后再次发送 ACK 报文。否则认为成功，可以转为closed状态</li>
+<li>原因2：保证在该连接上的数据处理顺利完毕。如果一旦立刻关闭，重新以该Port再建立一个新的TCP连接，则新旧数据处理会混乱出现问题。所以留一段时间来保证网络中的遗留数据都处理完再释放资源。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="拥塞控制原理"><a href="#拥塞控制原理" class="headerlink" title="拥塞控制原理"></a>拥塞控制原理</h3><p>太多的数据通过网络传输，超过了网络的处理能力</p>
+<ul>
+<li>表现：<ul>
+<li>分组丢失（路由器缓冲溢出）</li>
+<li>分组经历比较长的延迟（在路由器中排队）</li>
+</ul>
+</li>
+<li><strong>场景1：链路带宽R，2台主机，一个路由器具备无限大的缓冲</strong><ul>
+<li>吞吐表现  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/17.png" alt="Untitled"></li>
+<li>延迟表现  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/18.png" alt="Untitled"></li>
+</ul>
+</li>
+<li>场景2：路由器缓冲区有限，会丢失分组，发送端重传  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/19.png" alt="Untitled"><ul>
+<li>分组可能丢失，由于缓冲器满而被丢弃</li>
+<li>发送端最终超时，发送第2个拷贝，2个分组都传到</li>
+<li>为了达到一个有效输出，网络需要做更多的工作（重传）</li>
+<li>没有必要的重传，链路中包括了多个分组的拷贝：<ul>
+<li>是那些没有丢失，经历的时间比较长（拥塞状态）但是超时的分组</li>
+<li>降低了的“goodput”</li>
+</ul>
+</li>
+</ul>
+  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/20.png" alt="Untitled"></li>
+<li>场景3：多台路由器，多台主机互传，会形成网络死锁  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/21.png" alt="Untitled"></li>
+</ul>
+<h3 id="拥塞控制的方法"><a href="#拥塞控制的方法" class="headerlink" title="拥塞控制的方法"></a>拥塞控制的方法</h3><ul>
+<li>端到端的拥塞控制，TCP采用<ul>
+<li>没有来自网络的显示反馈</li>
+<li>端系统根据延迟和丢失事件推断是否有拥塞</li>
+</ul>
+</li>
+<li>网络辅助的拥塞控制，一般用于ATM 银行网络 ABR（Available bit rate）<ul>
+<li>路由器提供给端系统来反馈网络的拥塞情况<ul>
+<li>单个bit置位，显示有拥塞</li>
+<li>显示提供发送端可以采用的速率</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="TCP拥塞控制"><a href="#TCP拥塞控制" class="headerlink" title="TCP拥塞控制"></a>TCP拥塞控制</h3><p><a target="_blank" rel="noopener" href="https://media.pearsoncmg.com/aw/ecs_kurose_compnetwork_7/cw/content/interactiveanimations/tcp-congestion/index.html">TCP Congestion Control</a></p>
+<ul>
+<li>拥塞控制和流量控制是联合作用的，取二者的最小值来发送，使二者都满足<ul>
+<li>$SendWin=min(CongWin, RecvWin)$</li>
+</ul>
+</li>
+<li>每收到一个确认ACK，拥塞窗口值加1个MSS的大小；和每个RTT内拥塞窗口double翻倍的概念是一致的。<strong>如何理解</strong>：<ul>
+<li>假设当前窗口是n，发送方一次发送n个包，每个包收到1个ACK，则这是一个RTT，收到n个ACK，则需要增加n个包，变为2*n。所以是每个RTT翻倍</li>
+</ul>
+</li>
+<li>线性增，乘性减  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/22.png" alt="Untitled">  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/23.png" alt="Untitled"></li>
+<li><strong>慢启动阶段称为SS</strong></li>
+<li><strong>拥塞避免阶段称为CA</strong></li>
+<li><strong>总结</strong>  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/24.png" alt="Untitled">  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/25.png" alt="Untitled"></li>
+</ul>
+<h3 id="TCP的公平性"><a href="#TCP的公平性" class="headerlink" title="TCP的公平性"></a>TCP的公平性</h3><p><img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/26.png" alt="Untitled"></p>
+<p><img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/27.png" alt="Untitled"></p>
+<h2 id="学习传输层协议"><a href="#学习传输层协议" class="headerlink" title="学习传输层协议"></a>学习传输层协议</h2><ul>
+<li>TCP：面向连接的字节流，提供可靠数据传输（Reliable Data Transfer）的服务，20字节头部<ul>
+<li>序号：在MSS中的offset</li>
+<li>确认号：发送方收到接收方ACK=6的话，表示接收方已经收到了5以前所有的报文，希望收到下一个字节的序号。</li>
+<li>接收窗口：用于流量控制，表示能接收的字节数量</li>
+</ul>
+  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/28.png" alt="Untitled"><ul>
+<li>点对点<ul>
+<li>一个发送方，一个接收方</li>
+</ul>
+</li>
+<li>可靠的，按顺序的字节流<ul>
+<li>没有报文边界</li>
+</ul>
+</li>
+<li>管道化（流水线协议）<ul>
+<li>TCP拥塞控制和流量控制设置窗口大小</li>
+</ul>
+</li>
+<li>发送和接收缓存<ul>
+<li>用于丢失重传</li>
+</ul>
+</li>
+<li>全双工数据<ul>
+<li>在同一连接中数据流向是双向流动</li>
+<li>MSS：最大报文段大小，物理网络（比如以太网最长是1500字节 = TCP头部20字节 + IP头部20字节 + 数据1460字节）</li>
+</ul>
+</li>
+<li>面向连接<ul>
+<li>数据交换之前通过三次握手建立连接</li>
+</ul>
+</li>
+<li>有流量控制<ul>
+<li>发送方不会淹没接收方</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>UDP：无连接传输，数据报，<strong>8字节头部</strong>  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/29.png" alt="Untitled"></li>
+</ul>
+<p><img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/30.png" alt="Untitled"></p>
+<ul>
+<li>TCP和UDP都不能提供的服务：延时保证，带宽保证</li>
+</ul>
+<h1 id="网络层（数据平面）"><a href="#网络层（数据平面）" class="headerlink" title="网络层（数据平面）"></a>网络层（数据平面）</h1><ul>
+<li><strong>数据平面：分组转发</strong>，从路由器一个输入端口移动到一个合适的输出端口</li>
+<li><strong>控制平面：路由</strong>，确定从源点到目的点的路径</li>
+<li>转发和路由有2种方式：传统方式 和 SDN（soft define network） 方式</li>
+</ul>
+<h2 id="路由器的组成"><a href="#路由器的组成" class="headerlink" title="路由器的组成"></a>路由器的组成</h2><ul>
+<li>路由：运行路由选择算法协议（RIP，OSPF，BGP）生产路由表</li>
+<li>转发：从输入到输出链路交换数据报，根据路由表进行分组的转发</li>
+</ul>
+<p><img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/31.png" alt="Untitled"></p>
+<ul>
+<li>路由器缓冲区的分组会根据优先级来进行调度转发</li>
+<li>缓冲区存在的意义是为了匹配接收和发送的速率不一致问题</li>
+</ul>
+<h2 id="IP协议"><a href="#IP协议" class="headerlink" title="IP协议"></a>IP协议</h2><p><img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/32.png" alt="Untitled"></p>
+<ul>
+<li>IP 数据报格式<ul>
+<li>16-bit identifier，flags，fragment offset 这三个用于分片重组使用</li>
+<li>upper layer：表示要交付给上层哪个协议，是TCP还是UDP</li>
+</ul>
+  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/33.png" alt="Untitled"></li>
+<li>分片和重组  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/34.png" alt="Untitled">  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/35.png" alt="Untitled"></li>
+<li>IPv4地址：32位标示，对主机或者路由器的接口编址<ul>
+<li><strong>一个IP地址和一个接口相关联</strong></li>
+<li><strong>主机可以有多个IP地址（多张网卡就可以有多个IP），路由器至少有2个IP地址</strong></li>
+<li><strong>子网Subnets</strong><ul>
+<li>所有子网内IP的前缀是一样的</li>
+<li>在子网范围内之需要一跳可达，无需借助路由器</li>
+<li>如何判断两个IP处于同一子网内？<ul>
+<li>借助子网掩码，IP和子网掩码做&amp;操作，如果一致则在同一子网</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>IP地址分类</strong>  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/36.png" alt="Untitled"></li>
+<li><strong>内网专用地址</strong>  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/37.png" alt="Untitled"></li>
+<li><strong>IP编址：CIDR（Classless InterDomain Routing）无类域间路由</strong><ul>
+<li>子网部分可以在任意部分</li>
+<li>地址格式：a.b.c.d/x，其中x是地址中子网号的长度  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/38.png" alt="Untitled"></li>
+<li><strong>转发表和转发算法</strong>  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/39.png" alt="Untitled"></li>
+<li>DHCP协议（实现UDP之上，涉及广播）<ul>
+<li>用户在上线时通过DHCP协议向DHCP Server自动获取IP地址，可以更新对主机在用IP地址的租用期-租期快到了，重新启动时，允许重新使用以前用过的IP地址，支持移动用户加入到该网络（短期在网）。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>NAT（<strong>N</strong>etwork <strong>A</strong>ddress <strong>T</strong>ranslation）网络地址转换，完成将内网IP转化为公网的IP，完成路由<ul>
+<li>不需要从ISP分配一块地址，可用一个IP地址用于所有的（局域网）设备，省钱</li>
+<li>可以在局域网改变设备的地址情况下而无须通知外界</li>
+<li>可以改变ISP（地址变化）而不需要改变内部的设备地址</li>
+<li>局域网内部的设备没有明确的地址，对外是不可见的，安全</li>
+</ul>
+</li>
+<li>IPv6地址<ul>
+<li>动机：<ul>
+<li>IPv4不够用</li>
+<li>头部格式改变帮助加速处理和转发<ul>
+<li>TTL - 1</li>
+<li>头部checksum</li>
+<li>分片</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>头部  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/40.png" alt="Untitled"></li>
+<li>和IPv4的变化<ul>
+<li>CheckSum被移除，加快每一段中的处理速度</li>
+<li>Options：允许，但是在头部之外, 被“Next Header” 字段标示</li>
+<li>ICMPv6：ICMP的新版本<ul>
+<li>附加了报文类型, e.g. “Packet Too Big”</li>
+<li>多播组管理功能</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>IPv4 到 IPv6 的过渡：双栈隧道技术<ul>
+<li>隧道技术：在IPv4路由器之间传输的IPv4数据报中携带IPv6数据报  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/41.png" alt="Untitled"></li>
+<li>例子理解<ul>
+<li>IPv4的海洋中各自IPv4通信没有问题</li>
+<li>IPv6的岛上各自通信也没有问题</li>
+<li>IPv6岛1上的主机和IPv6岛2上的主机通信需要借助隧道技术来将IPv6封装成IPv4报文通过隧道传到IPv6岛2，之后解封装，发送到目的主机</li>
+</ul>
+  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/42.png" alt="Untitled"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="通用转发和SDN"><a href="#通用转发和SDN" class="headerlink" title="通用转发和SDN"></a>通用转发和SDN</h2><p><img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/43.png" alt="Untitled"></p>
+<ul>
+<li>传统方式：<ul>
+<li>概述：  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/44.png" alt="Untitled"></li>
+<li>缺点：  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/45.png" alt="Untitled"></li>
+</ul>
+</li>
+<li>SDN方式：  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/46.png" alt="Untitled"><ul>
+<li>实现思路：  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/47.png" alt="Untitled"></li>
+<li>SDN优势：  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/48.png" alt="Untitled"></li>
+</ul>
+</li>
+<li>SDN架构<ul>
+<li>控制器，也称为网络操作系统  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/49.png" alt="Untitled"></li>
+<li>控制应用  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/50.png" alt="Untitled"></li>
+</ul>
+</li>
+<li>OpenFlow 数据平面抽象<ul>
+<li>流：由分组（帧）头部字段所定义</li>
+<li>通用转发：简单的分组处理规则<ul>
+<li>模式：将分组头部字段和流表进行匹配</li>
+<li>行动：对于匹配上的分组，可以是丢弃、转发、修改、将匹配的分组发送给控制器</li>
+<li>优先权Priority：几个模式匹配了，优先采用哪个，消除歧义</li>
+<li>计数器Counters：#bytes 以及#packets</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>OpenFlow 流表的表项结构  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/51.png" alt="Untitled"></li>
+</ul>
+<h1 id="网络层（控制平面）"><a href="#网络层（控制平面）" class="headerlink" title="网络层（控制平面）"></a>网络层（控制平面）</h1><h2 id="路由选择算法"><a href="#路由选择算法" class="headerlink" title="路由选择算法"></a>路由选择算法</h2><p>路由的概念：按照某种指标(传输延迟,所经过的站点数目等)找到一条<br>从源节点到目标节点的较好路径。</p>
+<p>就是计算网络到网络是如何走的问题，也就是路由器之间是如何走的。</p>
+<p>比如有网络拓扑如下：</p>
+<p><img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/52.png" alt="Untitled"></p>
+<p><strong>C(src，des) = 链路的代价（src，des），如C(w，z）= 5</strong></p>
+<p><img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/53.png" alt="Untitled"></p>
+<h3 id="链路状态算法-Link-State"><a href="#链路状态算法-Link-State" class="headerlink" title="链路状态算法 Link State"></a>链路状态算法 Link State</h3><ul>
+<li><strong>全局：所有的路由器拥有完整的拓扑和边的代价的信息，通过广播泛洪的方式获取所有的节点信息，然后通过</strong>Dijkstra<strong>算法计算出最短路径拓扑。</strong></li>
+<li>基本工作流程：<ol>
+<li>发现相邻节点，获知对方的网络地址</li>
+<li>测量到相邻节点的代价（延迟，开销）</li>
+<li>组装成一个LS分组，描述它到相邻节点的代价情况</li>
+<li>将分组通过扩散的方式发到所有的其它路由器<ol>
+<li>顺序号：用于控制无穷的扩散，每个路由器都记录(源路由器,顺序号)，发现重复的或老的就不扩散<ol>
+<li>问题1：循环使用问题</li>
+<li>问题2：路由器崩溃后序号从0开始</li>
+<li>问题3：序号出现错误</li>
+</ol>
+</li>
+<li>解决方法：TTL，过一个路由器，TTL-1，减为0，丢掉该分组</li>
+</ol>
+</li>
+<li>通过Dijkstra算法找出最短路径</li>
+</ol>
+</li>
+<li>Dijkstra主要流程<ul>
+<li>C(i，j) ： 从 i 节点到 j 节点链路的代价</li>
+<li>D(v)：从源节点到节点 v 的当前路径代价</li>
+<li>P(v)：从源节点到节点 v 的路径的前序节点</li>
+<li>$N’$：当前已经知道最优路径的的节点集合(永久节点的集合)</li>
+<li>临时节点(tentative node) ：还没有找到从源节点到此节点的最优路径的节点</li>
+<li>永久节点：(permanent node) N’：已经找到了从源节点到此节点的最优路径的节点</li>
+</ul>
+  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/54.png" alt="Untitled">  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/55.png" alt="Untitled">  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/56.png" alt="Untitled">  $<strong>D(v) = min(D(v),D(w) + C(w,v)) = min(7,6)=6</strong>$</li>
+<li>如果链路的代价是拥塞程度，Dijkstra可能会出现链路来回震荡，高负载切换到低负载链路，之后又因为低负载变为高负载，又切换，此起彼伏的出现。</li>
+<li>应用：OSPF协议，IS-IS协议</li>
+</ul>
+<h3 id="距离矢量算法-Distance-vector"><a href="#距离矢量算法-Distance-vector" class="headerlink" title="距离矢量算法 Distance vector"></a>距离矢量算法 Distance vector</h3><p><strong>分布式：路由器只知道与它有物理连接关系的邻居路由器，和到相应邻居路由器的代价值，需要叠代地与邻居交换路由信息、计算路由信息。</strong></p>
+<p><img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/57.png" alt="Untitled"></p>
+<ul>
+<li>迭代式的算法，定时的将该节点到达其他节点的代价交换给邻居节点（路由信息通告）。  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/58.png" alt="Untitled"><ul>
+<li>该例子：J→G的路由下一跳发给谁如何确定：<ul>
+<li>J的邻居是：A，I，H，K</li>
+<li>所以要根据几个邻居来获取路由信息，看右下角的图可以知道：<ul>
+<li>A→G代价18</li>
+<li>I→G代价31</li>
+<li>H→G代价6</li>
+<li>K→G代价31</li>
+</ul>
+</li>
+<li>J到邻居的代价分别是：8，10，12，6</li>
+<li>step2和step3相加后发现下一跳应该发送给H</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>递归方程  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/59.png" alt="Untitled"></li>
+<li>DV算法的特点：<ul>
+<li>好消息传递的快  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/60.png" alt="Untitled"></li>
+<li>坏消息传递的慢：B是直连A的，B转发给A时，发现挂掉了，其实后面的CDE都是借助B来转发给A的，但是在A挂掉后这个坏消息还没有传递给CDE，CDE此时仍然认为自己有能力转发消息到A，所以坏消息传递的慢（解决方法：水平分裂，但仍不能解决环状拓扑）  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/61.png" alt="Untitled"></li>
+</ul>
+</li>
+</ul>
+<h3 id="LS和DV的比较"><a href="#LS和DV的比较" class="headerlink" title="LS和DV的比较"></a>LS和DV的比较</h3><p><img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/62.png" alt="Untitled"></p>
+<h2 id="ISP内部自治的路由选择协议（IGP协议）"><a href="#ISP内部自治的路由选择协议（IGP协议）" class="headerlink" title="ISP内部自治的路由选择协议（IGP协议）"></a>ISP内部自治的路由选择协议（IGP协议）</h2><h3 id="RIP：DV算法的应用"><a href="#RIP：DV算法的应用" class="headerlink" title="RIP：DV算法的应用"></a>RIP：DV算法的应用</h3><ul>
+<li>RIP通告：<ul>
+<li>在邻居之间<strong>每30s</strong>交换通告报文<ul>
+<li>定期，而且在改变路由的时候发通告报文</li>
+<li>在对方的请求下可以发送通告报文</li>
+</ul>
+</li>
+<li>每个通告：最多25个子网，路由跳数最大16（此时认为不可达）</li>
+</ul>
+</li>
+<li>RIP: 链路失效和恢复：如果180秒没有收到通告信息，认为邻居或者链路失效<ul>
+<li>发现经过这个邻居的路由已失效</li>
+<li>新的通告报文会传递给邻居</li>
+<li>邻居因此发出新的通告 (如果路由变化的话)</li>
+<li>链路失效快速地在整网中传输</li>
+<li>使用毒性逆转（poison reverse）阻止ping-pong回路(不可达的距离：跳数无限 = 16 段)</li>
+</ul>
+</li>
+<li>RIP进程处理  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/63.png" alt="Untitled"></li>
+</ul>
+<h3 id="OSPF：LS算法的应用"><a href="#OSPF：LS算法的应用" class="headerlink" title="OSPF：LS算法的应用"></a>OSPF：LS算法的应用</h3><ul>
+<li>Open Shortest Path First：<ul>
+<li>使用LS算法， LS 分组在网络中（一个AS内部）分发</li>
+<li>全局网络拓扑、代价在每一个节点中都保持</li>
+<li>路由计算采用Dijkstra算法</li>
+</ul>
+</li>
+<li>高级特性（RIP所没有的）<ul>
+<li>安全: 所有的OSPF报文都是经过认证的 (防止恶意的攻击)</li>
+<li>允许有多个代价相同的路径存在 (在RIP协议中只有一个)</li>
+<li>对于每一个链路，对于不同的TOS有多重代价矩阵<ul>
+<li>例如：卫星链路代价对于尽力而为的服务代价设置比较低，对实时服务代价设置的比较高</li>
+<li>支持按照不同的代价计算最优路径，如：按照时间和延迟分别计算最优路径</li>
+</ul>
+</li>
+<li>对单播和多播的集成支持：<ul>
+<li>Multicast OSPF (MOSPF) 使用相同的拓扑数据库，就像在OSPF中一样</li>
+</ul>
+</li>
+<li>在大型网络中支持<strong>层次性OSPF</strong>  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/64.png" alt="Untitled"></li>
+</ul>
+</li>
+</ul>
+<h2 id="ISP之间路由协议：BGP协议"><a href="#ISP之间路由协议：BGP协议" class="headerlink" title="ISP之间路由协议：BGP协议"></a>ISP之间路由协议：BGP协议</h2><h3 id="平面路由的问题"><a href="#平面路由的问题" class="headerlink" title="平面路由的问题"></a>平面路由的问题</h3><ul>
+<li>在规模大的网络中带来的传输，存储，计算代价很大<ul>
+<li>DV：距离矢量很大，不能收敛</li>
+<li>LS：数量大的泛洪传输，存储，然后通过Dijkstra计算复杂</li>
+</ul>
+</li>
+<li>管理问题：<ul>
+<li>不同网络的管理方式不同</li>
+<li>无法隐藏自己网络的特点</li>
+<li>各个网络互联的问题</li>
+</ul>
+</li>
+</ul>
+<h3 id="层次路由的引入"><a href="#层次路由的引入" class="headerlink" title="层次路由的引入"></a>层次路由的引入</h3><ul>
+<li>将互联网分成一个个的AS（autonomous systems）自治系统，用AS Number标识</li>
+<li>不同的AS内部可以运行不同的 IGP（OSPF or RIP）协议，通过边界网关路由器和其他AS互联</li>
+<li>优点：<ul>
+<li>解决了规模问题，可扩展性强</li>
+<li>解决了管理问题，每个AS内部各自选择协议，无需向外透露</li>
+</ul>
+</li>
+<li>BGP 提供给每个AS以以下方法：<ul>
+<li>eBGP: 从相邻的ASes那里获得子网可达信息</li>
+<li>iBGP: 将获得的子网可达信息传遍到AS内部的所有路由器</li>
+<li>根据子网可达信息和<strong>策略</strong>来决定到达子网的“好”路径</li>
+</ul>
+  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/65.png" alt="Untitled"></li>
+<li>BGP基础<ul>
+<li>BGP 会话: 2个BGP路由器(“peers”)在一个半永久的TCP连接上交换BGP报文：<ul>
+<li>通告向不同目标子网前缀的“路径”（BGP是一个“<strong>路径矢量</strong>”协议），注意是会存储路径的</li>
+</ul>
+  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/66.png" alt="Untitled"></li>
+<li>BGP通告  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/67.png" alt="Untitled"></li>
+</ul>
+</li>
+<li>BGP报文：使用TCP协议交换BGP报文<ul>
+<li>open：打开tcp连接，认证发送方</li>
+<li>update：通告新路径 or 撤销原路径</li>
+<li>keepalive：在没有更新时保持连接，也用于对open请求确认</li>
+<li>notification：报告以前的消息错误，也用来关闭连接</li>
+</ul>
+</li>
+<li>热土豆路由：不操心AS之间的代价，只考虑内部选择最小的路径  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/68.png" alt="Untitled"></li>
+<li>路径通告执行策略  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/69.png" alt="Untitled"></li>
+</ul>
+<h1 id="数据链路层和局域网"><a href="#数据链路层和局域网" class="headerlink" title="数据链路层和局域网"></a>数据链路层和局域网</h1><p>网络层解决的是一个网络如何到达另外一个网络的问题，在一个子网内部如何从一个节点（主机or路由器）到达另外一个节点，数据链路层+物理层粉墨登场，提供<strong>”点到点“的传输</strong>功能。</p>
+<h3 id="网络节点互联的方式："><a href="#网络节点互联的方式：" class="headerlink" title="网络节点互联的方式："></a>网络节点互联的方式：</h3><ul>
+<li>点到点的连接：一般用于WAN</li>
+<li>多点连接：通过共享型介质，比如交换机等。一般用于LAN</li>
+<li>WAN（广域网）：<ul>
+<li>带宽大，距离远，带宽延迟积大，如果采用多点连接出现冲突，代价大，一般都是远距离拉专线专用。</li>
+</ul>
+</li>
+<li>LAN（局域网）<ul>
+<li>连接点方便，直接连接到共享型介质（路由器，交换机等）</li>
+<li>WLAN：无线局域网</li>
+<li>VLAN：虚拟局域网，即在物理上不聚集在一起，但仍归属同一个局域网</li>
+</ul>
+</li>
+</ul>
+<h3 id="链路层"><a href="#链路层" class="headerlink" title="链路层"></a>链路层</h3><ul>
+<li>节点：主机，路由器，交换机等</li>
+<li>沿着通信路径，连接各相邻节点通信信道的是链路<ul>
+<li>有线链路</li>
+<li>无线链路</li>
+<li>局域网，共享型链路</li>
+</ul>
+</li>
+<li>协议单元：帧frame</li>
+<li>负责从一个节点将帧中的数据包发送到相邻节点（一般是子网内的两个节点）</li>
+<li>链路层在哪里实现？<ul>
+<li>在主机的<strong>适配器</strong>上实现链路层和相应物理层的功能<ul>
+<li>以太网卡，802.11网卡</li>
+</ul>
+  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/70.png" alt="Untitled"></li>
+</ul>
+</li>
+<li>差错检测<ul>
+<li>EDC = 差错检测和纠正位（冗余位），EDC越长检测纠正效果越好</li>
+<li>D = 数据由差错检测保护，可以包含头部字段  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/71.png" alt="Untitled"></li>
+<li>单bit奇偶校验：检测单bit错误<ul>
+<li>奇校验：确保传输的所有数据中的1的个为奇数，d+1位后1的个数是奇数<table>
+<thead>
+<tr>
+<th>原信息</th>
+<th>奇校验传输信息</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>11011</td>
+<td>110111</td>
+</tr>
+<tr>
+<td>01101</td>
+<td>011010</td>
+</tr>
+</tbody></table>
+</li>
+<li>偶校验：确保传输的所有数据中的1的个为偶数，d+1位后1的个数是偶数<table>
+<thead>
+<tr>
+<th>原信息</th>
+<th>偶校验传输信息</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>11011</td>
+<td>110110</td>
+</tr>
+<tr>
+<td>01101</td>
+<td>011011</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+</li>
+<li>2维奇偶校验：检测和纠正单bit错误  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/72.png" alt="Untitled"></li>
+<li>CRC循环冗余校验  选择 r 位CRC附加位R，使得&lt;D,R&gt;正好被G整除。接收方知道G，如果除后余数非0，则出错。可以检测出少于r+1位的错误。  广泛应用于：以太网、802.11 WiFi、ATM  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/73.png" alt="Untitled"><ul>
+<li>D：数据比特</li>
+<li>G：<strong>双方协商的 r+1 位多项式</strong>（r次方）<ul>
+<li>比如1011 即：$1<em>x^3 + 0</em>x^2 + 1<em>x^1  + 1</em>x^0 = x^3 + x + 1$</li>
+</ul>
+</li>
+<li>附加位的CRC是 r 位，是需要求取的。</li>
+<li>求取例子：  D = 101110  G = 1001  由于G是4位，则R需要3位，D左移3位，补0，然后开始模2运算，将余数附在D后面传输给接收方，接收方验证有余数否，无则正确接受，否则丢弃  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/74.png" alt="Untitled"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="多路访问协议"><a href="#多路访问协议" class="headerlink" title="多路访问协议"></a>多路访问协议</h3><ul>
+<li>两种类型的链路<ul>
+<li>点对点：<ul>
+<li>拨号访问的PPP</li>
+<li>以太网交换机和主机之间的点对点链路</li>
+</ul>
+</li>
+<li>广播：<ul>
+<li>传统以太网</li>
+<li>802.11无线局域网</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>多站点同时传送会出现信道使用冲突</li>
+<li>MAC（媒体访问介质）协议分类<ul>
+<li>信道划分：时分，频分，码分，分配片给每个节点使用</li>
+<li>随机访问：信道不划分，允许冲突，冲突后恢复</li>
+<li>依次轮流：节点依次轮流，但是有很多数据传输的节点拥有较长时间的信道使用权</li>
+</ul>
+</li>
+<li>目前大多使用随机访问MAC，面临的问题：<ul>
+<li>如何检测冲突</li>
+<li>如何在冲突后恢复</li>
+</ul>
+</li>
+<li>引出CSMA，CSMA/CD，CSMA/CA 协议<ul>
+<li>CSMA 载波侦听多路访问：发送前侦听信道是否空闲，闲则发送，否则推迟发送<ul>
+<li>冲突发生，产生原因：局部侦听，无法判断传播延迟大的其他节点有使用信道，之后就会出现冲突，如图红黄区域则是无效传输。即传播延迟决定了冲突概率，越大则越大。  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/75.png" alt="Untitled"></li>
+</ul>
+</li>
+<li><strong>CSMA/CD  载波侦听多路访问/冲突检测，传输前侦听，一边传输一遍监听，如果传输过程中发现冲突，则停止传输，减少对信道的浪费</strong><ul>
+<li>一般只适用于<strong>有线</strong>局域网中容易实现</li>
+</ul>
+  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/76.png" alt="Untitled"><ul>
+<li>CSMA/CD 算法过程：<ul>
+<li>发送前：<ul>
+<li>如果闲，则发送</li>
+<li>如果忙，则推迟到闲再发送</li>
+</ul>
+</li>
+<li>发送中：<ul>
+<li>没有冲突，则成功</li>
+<li>检测到冲突，则终止传输，之后尝试重发。</li>
+<li>发送方适配器发现冲突后除了终止传输同时会发送一个Jam信号，<strong>强化冲突</strong>，让所有的站点都知道发生了冲突</li>
+<li>放弃后进入指数退避算法状态，在第m次失败后，适配器随机选择一个{0，1，2，…… ， 2^m-1} 中选择一个K，等待K*512位时转到发送状态</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>指数退避的自适应算法：<ul>
+<li>目标：适配器试图适应当前负载，在一个变化的碰撞窗口中随机选择时间点尝试重发<ul>
+<li>高负载：重传窗口时间大，减少冲突，但等待时间长</li>
+<li>低负载：使得各站点等待时间少，但冲突概率大</li>
+</ul>
+</li>
+<li>过程：窗口随着碰撞次数增大而增大，从而多方选择的范围变大，碰撞概率减小，增大发送成的概率。<ul>
+<li>首次碰撞：在{0，1}选择K；延迟K*512位时</li>
+<li>第2次碰撞：在{0，1，2，3}选择K</li>
+<li>第10次碰撞：在{0，1，2，3，……，1023}选择K</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>CSMA/CA：载波侦听多路访问/冲突避免，一般用于WLAN无限局域网中</strong><ul>
+<li>不选用CD的原因：<ul>
+<li>传输介质不同，无线的介质传输随着距离信号的删减非常严重，无法检测冲突</li>
+<li>开放的空间冲突干扰太大，而在有线介质中不会和其他正在传输的节点发生冲突</li>
+</ul>
+</li>
+<li>发送前监听，如果忙则随机选择一个数值X，之后定时检测，每当检测到信道空闲时则减1，直到减为0时发送，同时需要ACK来避免冲突</li>
+<li><strong>隐藏终端问题，意味着不冲突不一定成功</strong>  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/77.png" alt="Untitled">  如图A和C互相无感知，当A和C都要向B发送时则会出现冲突</li>
+<li><strong>暴露终端问题，意味着冲突不一定不成功</strong>  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/78.png" alt="Untitled">  如图，B可以感知到C向D传，但是B向A传，虽然冲突，但是互不影响</li>
+<li><strong>但是在有线LAN中，基本可以认为不冲突就是成功，条件：帧的传输时间累计要≥2*t，其中 t 为最远的2个站点的传播时延，原因如图：</strong>  如果在B点之前的 t’ 时刻，此时Sender发送的数据还没有到达Accept，那Accept也要发送数据，测试侦听一下发现信道可用，但是刚发就出现了碰撞，然后这个碰撞信息又需要 t 时间才能传送给 Sender，如果Sender之前黄色区域时认定发送成功，则一定收不到该冲突信息，实质时发送失败。  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/79.png" alt="Untitled"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="LANS"><a href="#LANS" class="headerlink" title="LANS"></a>LANS</h3><ul>
+<li>MAC 地址：用于使帧从一个网卡传递到与其物理连接的另一个网卡(在同一个物理网络中)，48bit，如：1A-2F-BB-76-09-AD，每位用16进制表示。</li>
+<li>IP地址和MAC地址分离的原因：<ul>
+<li>IP地址和MAC地址的作用不同<ul>
+<li>IP地址是分层的<ul>
+<li>一个子网所有站点网络号一致，路由聚集，减少路由表</li>
+<li>需要一个网络中的站点地址网络号一致，如果捆绑需要定制网卡非常麻烦</li>
+<li>希望网络层地址是配置的；IP地址完成网络到网络的交付</li>
+</ul>
+</li>
+<li>mac地址是一个平面的<ul>
+<li>网卡在生产时不知道被用于哪个网络，因此给网卡一个唯一的标示，用于区分一个网络内部不同的网卡即可</li>
+<li>可以完成一个物理网络内部的节点到节点的数据交付</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>分离的好处：<ul>
+<li>网卡坏了，ip不变，可以捆绑到另外一个网卡的mac上</li>
+<li>物理网络还可以除IP之外支持其他网络层协议，链路协议为任意上层网络协议</li>
+</ul>
+</li>
+<li>捆绑的问题：<ul>
+<li>如果仅仅使用IP地址，不用mac地址，那么它仅支持IP协议</li>
+<li>每次上电都要重新写入网卡 IP地址；</li>
+<li>另外一个选择就是不使用任何地址；<strong>不用MAC地址，则每到来一个帧都要上传到IP层次</strong>，由它判断是不是需要接受，干扰一次</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>交换机：存储MAC地址，用于子网内转发消息。同时解决了CSMA/CD中在信道高负载时利用率低的问题，因为都是主机专用的接入交换机，没有其它主机抢用。</li>
+</ul>
+<h1 id="一个Web请求的生命流程（用于回顾整个协议栈）"><a href="#一个Web请求的生命流程（用于回顾整个协议栈）" class="headerlink" title="一个Web请求的生命流程（用于回顾整个协议栈）"></a>一个Web请求的生命流程（用于回顾整个协议栈）</h1><ul>
+<li>笔记本需要一个IP地址，采用DHCP协议进行分配<ul>
+<li>DHCP请求被封装在UDP中，封装在IP数据报，封装在802.3以太网帧</li>
+<li>以太网的帧在LAN上广播（MAC地址：FF-FF-FF-FF-FF-FF）被运行中的DHCP服务器接收，之后解封装帧，解封装IP，解封装UDP获取到DHCP请求。</li>
+<li>DHCP服务器生成DHCP ACK，包括客户端IP地址，第一跳路由器IP地址和DNS名字服务器地址。</li>
+<li>DHCP服务器封装成帧转发到交换机（交换机已经自学习了请求发来时的路径，即源mac地址），交换机负责转发给client，client接收到后解封装获取IP，DNS的IP，第一跳的路由器的IP</li>
+</ul>
+</li>
+<li>ARP查询广播：发生在DNS之前，HTTP之前<ul>
+<li>在发送HTTP请求之前，需要直到 <a target="_blank" rel="noopener" href="http://www.google.com/">www.google.com</a> 的IP地址，需要DNS</li>
+<li>DNS查询被创建，封装在UDP段中，封装在IP数据报中，封装在以太网的帧中，将帧传递给路由器，但是需要直到路由器的接口的mac地址，则需要ARP协议通过IP获取其mac地址</li>
+<li>ARP查询广播，被路由器接收，路由器用ARP应答，给出其mac地址</li>
+<li>现在直到第一跳路由器的mac地址，则可以发DNS查询了</li>
+</ul>
+</li>
+<li>DNS请求<ul>
+<li>DNS请求发送到DNS服务器（可能存在迭代 or 递归的获取）</li>
+<li>DNS服务器给出应答包：包含了<a target="_blank" rel="noopener" href="http://www.google.com/">www.google.com</a> 的IP地址</li>
+</ul>
+</li>
+<li>HTTP请求<ul>
+<li>为了发送HTTP请求，client需要创建一个到达web服务器的TCP Socket</li>
+<li>TCP SYN段（第1次握手）发送到web服务器</li>
+<li>web服务器用tcp  SYN + ACK（第2次握手）发送给client</li>
+<li>TCP连接建立</li>
+<li>HTTP请求的数据 + 第3次握手 合并一起发送到web服务器</li>
+<li>web服务器相应HTTP请求，返回HTTP应答报文经协议栈路由回client</li>
+<li>client进行解析渲染完成</li>
+</ul>
+</li>
+</ul>
+<h1 id="附录：协议流模拟动画网站"><a href="#附录：协议流模拟动画网站" class="headerlink" title="附录：协议流模拟动画网站"></a>附录：协议流模拟动画网站</h1><p><a target="_blank" rel="noopener" href="https://wps.pearsoned.com/ecs_kurose_compnetw_6/216/55463/14198700.cw/index.html">Student Resources</a></p>
+
+      
+      <blockquote>
+        
+        <!-- <strong>permalink</strong><br><a href="https://ryanxw24.github.io/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">https://ryanxw24.github.io/2022/03/20/基础计算机网络/</a> -->
+      </blockquote>
+    </div>
+    <footer class="mdui-card-actions">
+      
+        <a class="mdui-ripple article_categories-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a>
+      
+      
+        <a class="mdui-ripple article_tags-link" href="/tags/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">基础计算机网络</a>
+      
+    </footer>
+    
+  </article>
+  
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+  <script>$("#main article .mdui-card-content img.fancybox").on("click",function(e){$.fancybox.open({src:$(this).attr("src")});});</script>
+
+
+  <nav id="paginator">
+    
+    <div class="spacer"></div>
+    
+      <a rel="next" class="extend next" href="/2021/10/06/BFPRT/">
+        <span class="mdui-p-x-3" mdui-tooltip="{content: 'BFPRT'}">Next</span>
+        <button aria-label="next" class="mdui-btn mdui-btn-raised mdui-btn-icon mdui-color-theme-accent mdui-ripple"><i class="mdui-icon material-icons">arrow_forward</i></button>
+      </a>
+    
+  </nav>
+
+
+
+
+  <div style="position: fixed !important; right: 16px; top: 30%;">
+    <button class="mdui-fab mdui-fab-mini mdui-ripple" mdui-menu="{target: '#toc'}"><i class="mdui-icon material-icons">toc</i></button>
+    <ul class="mdui-menu" id="toc">
+      <li class="mdui-menu-item" disabled><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%92%8C%E4%BA%92%E8%81%94%E7%BD%91"><span class="toc-text">计算机网络和互联网</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%B1%82"><span class="toc-text">应用层</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP%E5%A5%97%E6%8E%A5%E5%AD%97%E7%BC%96%E7%A8%8B"><span class="toc-text">TCP套接字编程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UDP%E5%A5%97%E6%8E%A5%E5%AD%97%E7%BC%96%E7%A8%8B"><span class="toc-text">UDP套接字编程</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E5%B1%82"><span class="toc-text">传输层</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%90%86%E8%A7%A3%E4%BC%A0%E8%BE%93%E5%B1%82%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-text">理解传输层的工作原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8-%E8%A7%A3%E5%A4%8D%E7%94%A8"><span class="toc-text">多路复用 &#x2F; 解复用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E9%9D%A0%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%EF%BC%88RDT%EF%BC%89%E5%8E%9F%E7%90%86"><span class="toc-text">可靠数据传输（RDT）原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E5%8D%8F%E8%AE%AE%EF%BC%88slide-window%EF%BC%89"><span class="toc-text">滑动窗口协议（slide window）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E6%B0%B4%E7%BA%BF%E5%8D%8F%E8%AE%AE%EF%BC%88pipelined%EF%BC%89"><span class="toc-text">流水线协议（pipelined）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP%E8%B6%85%E6%97%B6%E5%AE%9A%E6%97%B6%E5%99%A8RTO%E7%9A%84%E5%90%88%E7%90%86%E8%AE%BE%E7%BD%AE%EF%BC%9A"><span class="toc-text">TCP超时定时器RTO的合理设置：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A7%E7%94%9FACK%E7%9A%84%E5%9C%BA%E6%99%AF"><span class="toc-text">产生ACK的场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E4%BC%A0%E5%88%86%E7%BB%84%E7%9A%84%E5%9C%BA%E6%99%AF%EF%BC%9A"><span class="toc-text">重传分组的场景：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6"><span class="toc-text">流量控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP%E8%BF%9E%E6%8E%A5%E7%AE%A1%E7%90%86%EF%BC%88%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B%EF%BC%89"><span class="toc-text">TCP连接管理（三次握手 + 四次挥手）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E5%8E%9F%E7%90%86"><span class="toc-text">拥塞控制原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-text">拥塞控制的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6"><span class="toc-text">TCP拥塞控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP%E7%9A%84%E5%85%AC%E5%B9%B3%E6%80%A7"><span class="toc-text">TCP的公平性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E4%BC%A0%E8%BE%93%E5%B1%82%E5%8D%8F%E8%AE%AE"><span class="toc-text">学习传输层协议</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82%EF%BC%88%E6%95%B0%E6%8D%AE%E5%B9%B3%E9%9D%A2%EF%BC%89"><span class="toc-text">网络层（数据平面）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E5%99%A8%E7%9A%84%E7%BB%84%E6%88%90"><span class="toc-text">路由器的组成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IP%E5%8D%8F%E8%AE%AE"><span class="toc-text">IP协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E7%94%A8%E8%BD%AC%E5%8F%91%E5%92%8CSDN"><span class="toc-text">通用转发和SDN</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82%EF%BC%88%E6%8E%A7%E5%88%B6%E5%B9%B3%E9%9D%A2%EF%BC%89"><span class="toc-text">网络层（控制平面）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E9%80%89%E6%8B%A9%E7%AE%97%E6%B3%95"><span class="toc-text">路由选择算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E8%B7%AF%E7%8A%B6%E6%80%81%E7%AE%97%E6%B3%95-Link-State"><span class="toc-text">链路状态算法 Link State</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%9D%E7%A6%BB%E7%9F%A2%E9%87%8F%E7%AE%97%E6%B3%95-Distance-vector"><span class="toc-text">距离矢量算法 Distance vector</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LS%E5%92%8CDV%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-text">LS和DV的比较</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ISP%E5%86%85%E9%83%A8%E8%87%AA%E6%B2%BB%E7%9A%84%E8%B7%AF%E7%94%B1%E9%80%89%E6%8B%A9%E5%8D%8F%E8%AE%AE%EF%BC%88IGP%E5%8D%8F%E8%AE%AE%EF%BC%89"><span class="toc-text">ISP内部自治的路由选择协议（IGP协议）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RIP%EF%BC%9ADV%E7%AE%97%E6%B3%95%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-text">RIP：DV算法的应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OSPF%EF%BC%9ALS%E7%AE%97%E6%B3%95%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-text">OSPF：LS算法的应用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ISP%E4%B9%8B%E9%97%B4%E8%B7%AF%E7%94%B1%E5%8D%8F%E8%AE%AE%EF%BC%9ABGP%E5%8D%8F%E8%AE%AE"><span class="toc-text">ISP之间路由协议：BGP协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B3%E9%9D%A2%E8%B7%AF%E7%94%B1%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">平面路由的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%82%E6%AC%A1%E8%B7%AF%E7%94%B1%E7%9A%84%E5%BC%95%E5%85%A5"><span class="toc-text">层次路由的引入</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%E5%92%8C%E5%B1%80%E5%9F%9F%E7%BD%91"><span class="toc-text">数据链路层和局域网</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E8%8A%82%E7%82%B9%E4%BA%92%E8%81%94%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%9A"><span class="toc-text">网络节点互联的方式：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="toc-text">链路层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E8%B7%AF%E8%AE%BF%E9%97%AE%E5%8D%8F%E8%AE%AE"><span class="toc-text">多路访问协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LANS"><span class="toc-text">LANS</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E4%B8%AAWeb%E8%AF%B7%E6%B1%82%E7%9A%84%E7%94%9F%E5%91%BD%E6%B5%81%E7%A8%8B%EF%BC%88%E7%94%A8%E4%BA%8E%E5%9B%9E%E9%A1%BE%E6%95%B4%E4%B8%AA%E5%8D%8F%E8%AE%AE%E6%A0%88%EF%BC%89"><span class="toc-text">一个Web请求的生命流程（用于回顾整个协议栈）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%99%84%E5%BD%95%EF%BC%9A%E5%8D%8F%E8%AE%AE%E6%B5%81%E6%A8%A1%E6%8B%9F%E5%8A%A8%E7%94%BB%E7%BD%91%E7%AB%99"><span class="toc-text">附录：协议流模拟动画网站</span></a></li></ol></li>
+    </ul>
+  </div>
+</main>
+  <footer id="footer" class="mdui-m-t-5 mdui-p-y-3 mdui-color-theme">
+  <div class="mdui-p-y-0 mdui-text-center">
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </div>
+  <div class="mdui-p-y-1 mdui-text-center">
+    Copyright &copy; 2022 ryanxw<br>
+    Powered by <a href="https://hexo.io/" target="_blank" class="mdui-text-color-theme-accent">Hexo</a>
+    
+  </div>
+</footer>
+  <button id="gotop" class="mdui-fab mdui-fab-fixed mdui-fab-hide mdui-color-theme-accent mdui-ripple"><i class="mdui-icon material-icons">arrow_upward</i></button>
+  
+  
+<script src="/js/mdui.js"></script>
+<script src="/js/script.js"></script>
+
+  
+<script src="/custom.js"></script>
+
+</body>
+</html>
