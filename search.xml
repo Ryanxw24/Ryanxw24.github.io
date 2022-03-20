@@ -1017,15 +1017,15 @@
 </ul>
 </li>
 <li><strong>3次握手建立连接（解决上述两个问题）</strong>  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/13.png" alt="Untitled"><ul>
-<li><strong>虚假的半连接被客户端拆除掉</strong>  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/14.png" alt="Untitled"></li>
-<li><strong>老的数据不会被server端接收，直接丢掉</strong>  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/15.png" alt="Untitled"></li>
+<li><strong>虚假的半连接被客户端拆除掉</strong><br><img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/14.png" alt="Untitled"></li>
+<li><strong>老的数据不会被server端接收，直接丢掉</strong><br><img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/15.png" alt="Untitled"></li>
 </ul>
 </li>
 <li><strong>四次挥手断开TCP连接</strong><ul>
 <li>看作两个半连接的拆除</li>
 <li>两军问题</li>
 <li>客户端，服务器分别关闭它自己这一侧的连接，发送FIN bit = 1的TCP段，一旦接收到FIN，用ACK回应，接到FIN段，ACK可以和它自己发出的FIN段一起发送，可以处理同时的FIN交换  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/16.png" alt="Untitled"></li>
-<li>注意上面图中的TIMED_WAIT状态，一般是2个MSL的时间，主要原因如下：<ul>
+<li><strong>注意上面图中的TIMED_WAIT状态，一般是2个MSL的时间，主要原因如下：</strong><ul>
 <li>原因1：要确保服务器是否已经收到了我们的 ACK 报文，如果没有收到的话，服务器会重新发 FIN 报文给客户端，客户端再次收到 ACK 报文之后，就知道之前的 ACK 报文丢失了，然后再次发送 ACK 报文。否则认为成功，可以转为closed状态</li>
 <li>原因2：保证在该连接上的数据处理顺利完毕。如果一旦立刻关闭，重新以该Port再建立一个新的TCP连接，则新旧数据处理会混乱出现问题。所以留一段时间来保证网络中的遗留数据都处理完再释放资源。</li>
 </ul>
@@ -1173,7 +1173,7 @@
 <li><strong>IP编址：CIDR（Classless InterDomain Routing）无类域间路由</strong><ul>
 <li>子网部分可以在任意部分</li>
 <li>地址格式：a.b.c.d/x，其中x是地址中子网号的长度  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/38.png" alt="Untitled"></li>
-<li><strong>转发表和转发算法</strong>  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/39.png" alt="Untitled"></li>
+<li><strong>转发表和转发算法</strong><br><img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/39.png" alt="Untitled"></li>
 <li>DHCP协议（实现UDP之上，涉及广播）<ul>
 <li>用户在上线时通过DHCP协议向DHCP Server自动获取IP地址，可以更新对主机在用IP地址的租用期-租期快到了，重新启动时，允许重新使用以前用过的IP地址，支持移动用户加入到该网络（短期在网）。</li>
 </ul>
@@ -1227,13 +1227,13 @@
 <h2 id="通用转发和SDN"><a href="#通用转发和SDN" class="headerlink" title="通用转发和SDN"></a>通用转发和SDN</h2><p><img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/43.png" alt="Untitled"></p>
 <ul>
 <li>传统方式：<ul>
-<li>概述：  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/44.png" alt="Untitled"></li>
-<li>缺点：  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/45.png" alt="Untitled"></li>
+<li>概述：<br>  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/44.png" alt="Untitled"></li>
+<li>缺点：<br><img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/45.png" alt="Untitled"></li>
 </ul>
 </li>
 <li>SDN方式：  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/46.png" alt="Untitled"><ul>
 <li>实现思路：  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/47.png" alt="Untitled"></li>
-<li>SDN优势：  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/48.png" alt="Untitled"></li>
+<li>SDN优势：<br><img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/48.png" alt="Untitled"></li>
 </ul>
 </li>
 <li>SDN架构<ul>
@@ -1252,7 +1252,7 @@
 </li>
 </ul>
 </li>
-<li>OpenFlow 流表的表项结构  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/51.png" alt="Untitled"></li>
+<li>OpenFlow 流表的表项结构<br><img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/51.png" alt="Untitled"></li>
 </ul>
 <h1 id="网络层（控制平面）"><a href="#网络层（控制平面）" class="headerlink" title="网络层（控制平面）"></a>网络层（控制平面）</h1><h2 id="路由选择算法"><a href="#路由选择算法" class="headerlink" title="路由选择算法"></a>路由选择算法</h2><p>路由的概念：按照某种指标(传输延迟,所经过的站点数目等)找到一条<br>从源节点到目标节点的较好路径。</p>
 <p>就是计算网络到网络是如何走的问题，也就是路由器之间是如何走的。</p>
@@ -1310,7 +1310,7 @@
 </li>
 </ul>
 </li>
-<li>递归方程  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/59.png" alt="Untitled"></li>
+<li>递归方程<br><img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/59.png" alt="Untitled"></li>
 <li>DV算法的特点：<ul>
 <li>好消息传递的快  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/60.png" alt="Untitled"></li>
 <li>坏消息传递的慢：B是直连A的，B转发给A时，发现挂掉了，其实后面的CDE都是借助B来转发给A的，但是在A挂掉后这个坏消息还没有传递给CDE，CDE此时仍然认为自己有能力转发消息到A，所以坏消息传递的慢（解决方法：水平分裂，但仍不能解决环状拓扑）  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/61.png" alt="Untitled"></li>
@@ -1478,7 +1478,9 @@
 </li>
 </ul>
 </li>
-<li>2维奇偶校验：检测和纠正单bit错误  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/72.png" alt="Untitled"></li>
+<li>2维奇偶校验：检测和纠正单bit错误</li>
+</ul>
+  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/72.png" alt="Untitled"><ul>
 <li>CRC循环冗余校验  选择 r 位CRC附加位R，使得&lt;D,R&gt;正好被G整除。接收方知道G，如果除后余数非0，则出错。可以检测出少于r+1位的错误。  广泛应用于：以太网、802.11 WiFi、ATM  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/73.png" alt="Untitled"><ul>
 <li>D：数据比特</li>
 <li>G：<strong>双方协商的 r+1 位多项式</strong>（r次方）<ul>
@@ -1486,9 +1488,9 @@
 </ul>
 </li>
 <li>附加位的CRC是 r 位，是需要求取的。</li>
-<li>求取例子：  D = 101110  G = 1001  由于G是4位，则R需要3位，D左移3位，补0，然后开始模2运算，将余数附在D后面传输给接收方，接收方验证有余数否，无则正确接受，否则丢弃  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/74.png" alt="Untitled"></li>
+<li>求取例子：  D = 101110  G = 1001  由于G是4位，则R需要3位，D左移3位，补0，然后开始模2运算，将余数附在D后面传输给接收方，接收方验证有余数否，无则正确接受，否则丢弃</li>
 </ul>
-</li>
+  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/74.png" alt="Untitled"></li>
 </ul>
 </li>
 </ul>
@@ -1520,7 +1522,7 @@
 </li>
 <li>引出CSMA，CSMA/CD，CSMA/CA 协议<ul>
 <li>CSMA 载波侦听多路访问：发送前侦听信道是否空闲，闲则发送，否则推迟发送<ul>
-<li>冲突发生，产生原因：局部侦听，无法判断传播延迟大的其他节点有使用信道，之后就会出现冲突，如图红黄区域则是无效传输。即传播延迟决定了冲突概率，越大则越大。  <img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/75.png" alt="Untitled"></li>
+<li>冲突发生，产生原因：局部侦听，无法判断传播延迟大的其他节点有使用信道，之后就会出现冲突，如图红黄区域则是无效传输。即传播延迟决定了冲突概率，越大则越大。<br><img src="/2022/03/20/%E5%9F%BA%E7%A1%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/75.png" alt="Untitled"></li>
 </ul>
 </li>
 <li><strong>CSMA/CD  载波侦听多路访问/冲突检测，传输前侦听，一边传输一遍监听，如果传输过程中发现冲突，则停止传输，减少对信道的浪费</strong><ul>
